@@ -1,0 +1,24 @@
+{
+  "name": "tp-desarrollo-de-software",
+  "version": "1.0.0",
+  "description": "tags: #dsw #tp",
+  "homepage": "https://github.com/CataldiDonato/TP-Desarrollo-de-software#readme",
+  "bugs": {
+    "url": "https://github.com/CataldiDonato/TP-Desarrollo-de-software/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CataldiDonato/TP-Desarrollo-de-software.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
