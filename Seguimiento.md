@@ -20,11 +20,8 @@ Vamos a trabajar en un único repositorio (Monorepo simple). En la raíz del pro
 
 ```text
 /TP-Desarrollo-de-software
-  ├── /backend     (Node.js, Express, Prisma)
-  ├── /frontend    (React, Vite, Tailwind)
-  ├── README.md
-  ├── proposal.md
-  └── WORKFLOW.md
+/TP-Desarrollo-de-software-Backend
+/TP-Desarrollo-de-software-Frontend
 ```
 
 ---
