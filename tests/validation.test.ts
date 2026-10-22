@@ -1,7 +1,7 @@
 // Test unitario: funciones de validación (src/utils/validation.ts)
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parsePositiveId, requireText, parseEmail, parseOpcion, TIPOS_PRODUCTO } from '../src/utils/validation';
+import { parsePositiveId, requireText, parseEmail, parseOpcion, parseTextoOpcional, TIPOS_PRODUCTO } from '../src/utils/validation';
 
 test('parsePositiveId acepta enteros positivos (también como texto)', () => {
     assert.equal(parsePositiveId(5, 'id'), 5);
@@ -28,4 +28,12 @@ test('parseEmail pasa a minúsculas y valida el formato', () => {
 test('parseOpcion solo acepta valores de la lista', () => {
     assert.equal(parseOpcion('Plato', TIPOS_PRODUCTO, 'tipo'), 'Plato');
     assert.throws(() => parseOpcion('Postre', TIPOS_PRODUCTO, 'tipo'), /Plato, Bebida/);
+});
+
+test('parseTextoOpcional devuelve null si no hay texto y respeta el largo máximo', () => {
+    assert.equal(parseTextoOpcional(undefined, 'observaciones', 10), null);
+    assert.equal(parseTextoOpcional('   ', 'observaciones', 10), null);
+    assert.equal(parseTextoOpcional('  sin sal ', 'observaciones', 10), 'sin sal');
+    assert.throws(() => parseTextoOpcional('a'.repeat(11), 'observaciones', 10), /10 caracteres/);
+    assert.throws(() => parseTextoOpcional(5, 'observaciones', 10), /texto/);
 });

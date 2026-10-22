@@ -82,3 +82,17 @@ test('crear una mesa con capacidad inválida devuelve 400 con un mensaje claro',
     assert.equal(res.status, 400);
     assert.match((await res.json()).message, /capacidad/);
 });
+
+test('la cocina rechaza un filtro de estado que no existe (400)', async () => {
+    const res = await fetch(`${url}/api/cocina/pedidos?estado=Inventado`, {
+        headers: { Authorization: `Bearer ${tokenDe('Cocinero')}` }
+    });
+    assert.equal(res.status, 400);
+});
+
+test('un Mozo no puede ver el detalle de cocina de una comanda (403)', async () => {
+    const res = await fetch(`${url}/api/cocina/comandas/1`, {
+        headers: { Authorization: `Bearer ${tokenDe('Mozo')}` }
+    });
+    assert.equal(res.status, 403);
+});

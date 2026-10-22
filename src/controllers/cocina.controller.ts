@@ -1,13 +1,23 @@
 import type { Request, Response } from 'express';
 import { CocinaService } from '../services/cocina.service';
 import { getErrorResponse } from '../utils/app-error';
+import { parsePositiveId } from '../utils/validation';
 
 const service = new CocinaService();
 
 export class CocinaController {
-    async getPedidosActivos(_req: Request, res: Response) {
+    async getPedidosActivos(req: Request, res: Response) {
         try {
-            return res.status(200).json(await service.getPedidosActivos());
+            return res.status(200).json(await service.getPedidosActivos(req.query.estado));
+        } catch (error) {
+            return this.sendError(res, error);
+        }
+    }
+
+    async getComanda(req: Request, res: Response) {
+        try {
+            const id = parsePositiveId(req.params.id, 'id');
+            return res.status(200).json(await service.getComanda(id));
         } catch (error) {
             return this.sendError(res, error);
         }

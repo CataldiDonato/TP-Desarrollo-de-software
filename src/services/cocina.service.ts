@@ -3,15 +3,23 @@ import { AppError } from '../utils/app-error';
 import {
     isPlainObject,
     parseEstadoDetalle,
+    parseOpcion,
     parsePositiveId,
     type EstadoDetalle
 } from '../utils/validation';
 
+// Estados que puede mostrar la pantalla de Cocina (los finalizados ya no le interesan).
+const ESTADOS_ACTIVOS = ['Pendiente', 'En_Preparacion'] as const;
+
 const repository = new CocinaRepository();
 
 export class CocinaService {
-    async getPedidosActivos() {
-        const pedidos = await repository.findPedidosActivos();
+    async getPedidosActivos(estado?: unknown) {
+        const filtro = estado === undefined || estado === ''
+            ? undefined
+            : parseOpcion(estado, ESTADOS_ACTIVOS, 'estado');
+
+        const pedidos = await repository.findPedidosActivos(filtro);
         const priority: Record<EstadoDetalle, number> = {
             Pendiente: 0,
             En_Preparacion: 1,
@@ -25,10 +33,35 @@ export class CocinaService {
                 idProducto: pedido.id_producto,
                 cantidad: pedido.cantidad,
                 estado: pedido.estado,
+                observaciones: pedido.observaciones,
                 producto: pedido.producto,
                 comanda: pedido.comanda,
                 cocinero: pedido.cocinero
             }));
+    }
+
+    async getComanda(id: number) {
+        const comanda = await repository.findComanda(id);
+        if (!comanda) {
+            throw new AppError(`No existe una comanda con el id ${id}.`, 404);
+        }
+
+        return {
+            id: comanda.id,
+            fecha: comanda.fecha,
+            estado: comanda.estado,
+            mesa: comanda.mesa,
+            mozo: comanda.mozo,
+            detalles: comanda.detalles_comandas.map((detalle) => ({
+                id_producto: detalle.id_producto,
+                nombre_producto: detalle.producto.nombre,
+                tipo: detalle.producto.tipo,
+                cantidad: detalle.cantidad,
+                estado: detalle.estado,
+                observaciones: detalle.observaciones,
+                cocinero: detalle.cocinero
+            }))
+        };
     }
 
     // idCocinero es el usuario logueado (sale del token), así nadie puede hacerse pasar por otro cocinero.
@@ -133,6 +166,7 @@ export class CocinaService {
             idProducto: detalle.id_producto,
             cantidad: detalle.cantidad,
             estado: detalle.estado,
+            observaciones: detalle.observaciones,
             producto: detalle.producto,
             comanda: detalle.comanda,
             cocinero: detalle.cocinero

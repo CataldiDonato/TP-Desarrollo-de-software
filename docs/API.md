@@ -1,6 +1,6 @@
 # RestoFlow — Documentación de la API
 
-URL base: `http://localhost:3000/api`
+URL base: `http://localhost:3000/api` (en desarrollo)
 
 ## Autenticación
 
@@ -143,9 +143,10 @@ Reglas:
 |---|---|---|
 | GET | `/comandas?estado=Abierta` | Filtro opcional: `Abierta`, `Pagada` o `Cancelada` |
 | GET | `/comandas/:id` | — |
-| POST | `/comandas` | `{ id_mesa, detalles?: [{ id_producto, cantidad }] }` |
+| POST | `/comandas` | `{ id_mesa, detalles?: [{ id_producto, cantidad, observaciones? }] }` |
 | PATCH | `/comandas/:id/estado` | `{ estado: "Pagada", id_medio_pago }` o `{ estado: "Cancelada" }` |
 
+- **Observaciones:** texto opcional por producto para la cocina (ej: "sin sal"), hasta 200 caracteres.
 - **Abrir (POST):** el mozo es el usuario logueado (sale del token). La mesa no puede tener otra comanda abierta. Se crea la comanda con sus productos en estado `Pendiente` y la mesa pasa a `Ocupada`, todo en una transacción.
 - **Cerrar (PATCH):** solo se puede cerrar una comanda `Abierta`. Para cobrar (`Pagada`) hace falta un medio de pago y al menos un producto. En los dos casos la mesa vuelve a `Libre` (también en una transacción).
 
@@ -157,7 +158,7 @@ Respuesta de `GET /comandas/:id`:
   "medio_pago": null,
   "detalles": [
     { "id_producto": 1, "nombre_producto": "Milanesa con papas", "cantidad": 2,
-      "estado": "En_Preparacion", "precio": 12000, "subtotal": 24000 }
+      "estado": "En_Preparacion", "observaciones": "Sin sal", "precio": 12000, "subtotal": 24000 }
   ],
   "total": 24000
 }
@@ -168,7 +169,7 @@ El `precio` de cada producto es el que estaba vigente cuando se abrió la comand
 
 | Método | Ruta | Body |
 |---|---|---|
-| POST | `/detalle-comanda` | `{ id_comanda, id_producto, cantidad }` — agrega un producto (entra como `Pendiente`) |
+| POST | `/detalle-comanda` | `{ id_comanda, id_producto, cantidad, observaciones? }` — agrega un producto (entra como `Pendiente`) |
 | PUT | `/detalle-comanda/:id_comanda/:id_producto` | `{ cantidad }` |
 | DELETE | `/detalle-comanda/:id_comanda/:id_producto` | — |
 
@@ -182,12 +183,27 @@ El `precio` de cada producto es el que estaba vigente cuando se abrió la comand
 
 | Método | Ruta | Roles | Body |
 |---|---|---|---|
-| GET | `/cocina/pedidos` | A, C | — productos `Pendiente` o `En_Preparacion` de comandas abiertas |
+| GET | `/cocina/pedidos?estado=Pendiente` | A, C | — productos `Pendiente` o `En_Preparacion` de comandas abiertas. El filtro `estado` es opcional (`Pendiente` o `En_Preparacion`) |
+| GET | `/cocina/comandas/:id` | A, C | — detalle de una comanda para la cocina: mesa, mozo y todos sus productos (también los terminados) con observaciones y cocinero |
 | PATCH | `/cocina/detalles/estado` | C | `{ id_comanda, id_producto, estado }` |
 
 - Orden de los estados: `Pendiente` → `En_Preparacion` → `Finalizada`. No se puede saltear ninguno.
+- Cada pedido trae sus `observaciones` (o `null`).
 - El cocinero es el usuario logueado (sale del token). Solo el cocinero que empezó un plato lo puede finalizar.
 - Si dos cocineros tocan el mismo plato al mismo tiempo, el segundo recibe un `409`.
+
+Respuesta de `GET /cocina/comandas/:id`:
+```json
+{
+  "id": 4, "fecha": "2026-10-22T17:15:37.879Z", "estado": "Abierta",
+  "mesa": { "id": 5, "capacidad": 6 },
+  "mozo": { "id": 2, "nombre": "Mozo" },
+  "detalles": [
+    { "id_producto": 1, "nombre_producto": "Milanesa con papas", "tipo": "Plato", "cantidad": 1,
+      "estado": "En_Preparacion", "observaciones": "Sin sal", "cocinero": { "id": 3, "nombre": "Cocinero" } }
+  ]
+}
+```
 
 ---
 
