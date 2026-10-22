@@ -4,7 +4,7 @@
     "module": "CommonJS",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "types": ["node"]
   },
   "include": [

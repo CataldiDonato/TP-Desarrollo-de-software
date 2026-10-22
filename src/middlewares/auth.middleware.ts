@@ -1,11 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import type { RolUsuario } from '../utils/validation';
-
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-    throw new Error('Falta configurar JWT_SECRET en el .env');
-}
+import { JWT_SECRET } from '../config/jwt';
 
 export function verificarToken(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;

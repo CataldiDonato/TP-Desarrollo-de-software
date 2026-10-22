@@ -3,11 +3,7 @@ import { UsuarioRepository } from '../repositories/usuario.repository';
 import { verifyPassword } from '../utils/password';
 import { AppError } from '../utils/app-error';
 import { isPlainObject, requireText } from '../utils/validation';
-
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-    throw new Error('Falta configurar JWT_SECRET en el .env');
-}
+import { JWT_SECRET } from '../config/jwt';
 
 const repository = new UsuarioRepository();
 
