@@ -8,9 +8,9 @@ export class detalle_comandaRepository {
     }
 
     // Todo producto nuevo entra a la cocina como "Pendiente".
-    async create(id_comanda: number, id_producto: number, cantidad: number) {
+    async create(id_comanda: number, id_producto: number, cantidad: number, observaciones: string | null) {
         return await prisma.detalle_comanda.create({
-            data: { id_comanda, id_producto, cantidad, estado: 'Pendiente' }
+            data: { id_comanda, id_producto, cantidad, observaciones, estado: 'Pendiente' }
         });
     }
 

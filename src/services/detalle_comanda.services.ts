@@ -2,7 +2,8 @@ import { detalle_comandaRepository } from "../repositories/detalle_comanda.repos
 import { comandaRepository } from "../repositories/comanda.repository";
 import { ProductoRepository } from "../repositories/productos.repository";
 import { AppError } from "../utils/app-error";
-import { isPlainObject, parsePositiveId, parsePositiveInt } from "../utils/validation";
+import { isPlainObject, parsePositiveId, parsePositiveInt, parseTextoOpcional } from "../utils/validation";
+import { MAX_OBSERVACIONES } from "./comanda.service";
 
 const repository = new detalle_comandaRepository(); //Creo una instancia de la clase detalle_comandaRepository para poder usar sus metodos
 const repositoryComanda = new comandaRepository();
@@ -18,6 +19,7 @@ export class detalle_comandaService {
         const id_comanda = parsePositiveId(input.id_comanda, 'id_comanda');
         const id_producto = parsePositiveId(input.id_producto, 'id_producto');
         const cantidad = parsePositiveInt(input.cantidad, 'cantidad');
+        const observaciones = parseTextoOpcional(input.observaciones, 'observaciones', MAX_OBSERVACIONES);
 
         await this.validarComandaAbierta(id_comanda);
 
@@ -32,7 +34,7 @@ export class detalle_comandaService {
             throw new AppError('Ese producto ya está en la comanda. Modificá su cantidad.', 409);
         }
 
-        return await repository.create(id_comanda, id_producto, cantidad);
+        return await repository.create(id_comanda, id_producto, cantidad, observaciones);
     }
 
     async updateCantidad(id_comanda: number, id_producto: number, input: unknown) {

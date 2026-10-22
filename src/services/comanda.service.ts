@@ -9,8 +9,12 @@ import {
     isPlainObject,
     parseOpcion,
     parsePositiveId,
-    parsePositiveInt
+    parsePositiveInt,
+    parseTextoOpcional
 } from "../utils/validation";
+
+// Largo máximo de las observaciones de un producto pedido.
+export const MAX_OBSERVACIONES = 200;
 
 const repository = new comandaRepository(); //Creo una instancia de la clase comandaRepository para poder usar sus metodos
 const repositoryMesa = new MesaRepository();
@@ -29,6 +33,7 @@ interface ComandaCompleta {
         id_producto: number;
         cantidad: number;
         estado: string;
+        observaciones: string | null;
         producto: { nombre: string; precios: { precio: unknown; fecha_desde: Date }[] };
     }[];
 }
@@ -108,7 +113,7 @@ export class comandaService {
         return await repository.cerrar(id, comanda.id_mesa, estado, id_medio_pago);
     }
 
-    // "detalles" es opcional. Si viene, debe ser una lista de { id_producto, cantidad }.
+    // "detalles" es opcional. Si viene, debe ser una lista de { id_producto, cantidad, observaciones? }.
     private async validarDetalles(detalles: unknown) {
         if (detalles === undefined) {
             return [];
@@ -117,13 +122,14 @@ export class comandaService {
             throw new AppError("El campo 'detalles' debe ser una lista.");
         }
 
-        const resultado: { id_producto: number; cantidad: number }[] = [];
+        const resultado: { id_producto: number; cantidad: number; observaciones: string | null }[] = [];
         for (const detalle of detalles) {
             if (!isPlainObject(detalle)) {
                 throw new AppError("Cada detalle debe tener 'id_producto' y 'cantidad'.");
             }
             const id_producto = parsePositiveId(detalle.id_producto, 'id_producto');
             const cantidad = parsePositiveInt(detalle.cantidad, 'cantidad');
+            const observaciones = parseTextoOpcional(detalle.observaciones, 'observaciones', MAX_OBSERVACIONES);
 
             if (resultado.some((item) => item.id_producto === id_producto)) {
                 throw new AppError('Hay productos repetidos en la comanda. Sumá las cantidades en un solo ítem.');
@@ -133,7 +139,7 @@ export class comandaService {
                 throw new AppError(`No existe un producto con el id ${id_producto}.`, 404);
             }
 
-            resultado.push({ id_producto, cantidad });
+            resultado.push({ id_producto, cantidad, observaciones });
         }
         return resultado;
     }
@@ -147,6 +153,7 @@ export class comandaService {
                 nombre_producto: detalle.producto.nombre,
                 cantidad: detalle.cantidad,
                 estado: detalle.estado,
+                observaciones: detalle.observaciones,
                 precio,
                 subtotal: precio * detalle.cantidad
             };

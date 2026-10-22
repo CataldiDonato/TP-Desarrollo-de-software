@@ -72,6 +72,23 @@ export function requireText(value: unknown, field: string, minLength = 1): strin
     return text;
 }
 
+// Texto opcional: si no viene o viene vacío devuelve null.
+export function parseTextoOpcional(value: unknown, field: string, maxLength: number): string | null {
+    if (value === undefined || value === null) {
+        return null;
+    }
+    if (typeof value !== 'string') {
+        throw new AppError(`El campo '${field}' debe ser texto.`);
+    }
+
+    const text = value.trim();
+    if (text.length > maxLength) {
+        throw new AppError(`El campo '${field}' no puede superar los ${maxLength} caracteres.`);
+    }
+
+    return text === '' ? null : text;
+}
+
 export function parseEmail(value: unknown): string {
     const email = requireText(value, 'email').toLowerCase();
     const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

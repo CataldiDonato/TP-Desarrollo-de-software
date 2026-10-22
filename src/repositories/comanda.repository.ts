@@ -43,7 +43,11 @@ export class comandaRepository {
 
     // Crea la comanda con sus productos y marca la mesa como Ocupada.
     // Va en una transacción: si algo falla, no se guarda nada.
-    async create(id_mesa: number, id_mozo: number, detalles: { id_producto: number; cantidad: number }[]) {
+    async create(
+        id_mesa: number,
+        id_mozo: number,
+        detalles: { id_producto: number; cantidad: number; observaciones: string | null }[]
+    ) {
         const [comanda] = await prisma.$transaction([
             prisma.comanda.create({
                 data: {
@@ -54,6 +58,7 @@ export class comandaRepository {
                         create: detalles.map((detalle) => ({
                             id_producto: detalle.id_producto,
                             cantidad: detalle.cantidad,
+                            observaciones: detalle.observaciones,
                             estado: 'Pendiente' as const
                         }))
                     }

@@ -1215,6 +1215,7 @@ export type Precio_productoScalarFieldEnum = (typeof Precio_productoScalarFieldE
 export const Detalle_comandaScalarFieldEnum = {
   cantidad: 'cantidad',
   estado: 'estado',
+  observaciones: 'observaciones',
   id_cocinero: 'id_cocinero',
   id_comanda: 'id_comanda',
   id_producto: 'id_producto'

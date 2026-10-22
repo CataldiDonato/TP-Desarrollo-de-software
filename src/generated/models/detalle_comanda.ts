@@ -43,6 +43,7 @@ export type Detalle_comandaSumAggregateOutputType = {
 export type Detalle_comandaMinAggregateOutputType = {
   cantidad: number | null
   estado: $Enums.estado_detalle_comanda | null
+  observaciones: string | null
   id_cocinero: number | null
   id_comanda: number | null
   id_producto: number | null
@@ -51,6 +52,7 @@ export type Detalle_comandaMinAggregateOutputType = {
 export type Detalle_comandaMaxAggregateOutputType = {
   cantidad: number | null
   estado: $Enums.estado_detalle_comanda | null
+  observaciones: string | null
   id_cocinero: number | null
   id_comanda: number | null
   id_producto: number | null
@@ -59,6 +61,7 @@ export type Detalle_comandaMaxAggregateOutputType = {
 export type Detalle_comandaCountAggregateOutputType = {
   cantidad: number
   estado: number
+  observaciones: number
   id_cocinero: number
   id_comanda: number
   id_producto: number
@@ -83,6 +86,7 @@ export type Detalle_comandaSumAggregateInputType = {
 export type Detalle_comandaMinAggregateInputType = {
   cantidad?: true
   estado?: true
+  observaciones?: true
   id_cocinero?: true
   id_comanda?: true
   id_producto?: true
@@ -91,6 +95,7 @@ export type Detalle_comandaMinAggregateInputType = {
 export type Detalle_comandaMaxAggregateInputType = {
   cantidad?: true
   estado?: true
+  observaciones?: true
   id_cocinero?: true
   id_comanda?: true
   id_producto?: true
@@ -99,6 +104,7 @@ export type Detalle_comandaMaxAggregateInputType = {
 export type Detalle_comandaCountAggregateInputType = {
   cantidad?: true
   estado?: true
+  observaciones?: true
   id_cocinero?: true
   id_comanda?: true
   id_producto?: true
@@ -194,6 +200,7 @@ export type detalle_comandaGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 export type Detalle_comandaGroupByOutputType = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones: string | null
   id_cocinero: number | null
   id_comanda: number
   id_producto: number
@@ -225,6 +232,7 @@ export type detalle_comandaWhereInput = {
   NOT?: Prisma.detalle_comandaWhereInput | Prisma.detalle_comandaWhereInput[]
   cantidad?: Prisma.IntFilter<"detalle_comanda"> | number
   estado?: Prisma.Enumestado_detalle_comandaFilter<"detalle_comanda"> | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.StringNullableFilter<"detalle_comanda"> | string | null
   id_cocinero?: Prisma.IntNullableFilter<"detalle_comanda"> | number | null
   id_comanda?: Prisma.IntFilter<"detalle_comanda"> | number
   id_producto?: Prisma.IntFilter<"detalle_comanda"> | number
@@ -236,6 +244,7 @@ export type detalle_comandaWhereInput = {
 export type detalle_comandaOrderByWithRelationInput = {
   cantidad?: Prisma.SortOrder
   estado?: Prisma.SortOrder
+  observaciones?: Prisma.SortOrderInput | Prisma.SortOrder
   id_cocinero?: Prisma.SortOrderInput | Prisma.SortOrder
   id_comanda?: Prisma.SortOrder
   id_producto?: Prisma.SortOrder
@@ -251,6 +260,7 @@ export type detalle_comandaWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.detalle_comandaWhereInput | Prisma.detalle_comandaWhereInput[]
   cantidad?: Prisma.IntFilter<"detalle_comanda"> | number
   estado?: Prisma.Enumestado_detalle_comandaFilter<"detalle_comanda"> | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.StringNullableFilter<"detalle_comanda"> | string | null
   id_cocinero?: Prisma.IntNullableFilter<"detalle_comanda"> | number | null
   id_comanda?: Prisma.IntFilter<"detalle_comanda"> | number
   id_producto?: Prisma.IntFilter<"detalle_comanda"> | number
@@ -262,6 +272,7 @@ export type detalle_comandaWhereUniqueInput = Prisma.AtLeast<{
 export type detalle_comandaOrderByWithAggregationInput = {
   cantidad?: Prisma.SortOrder
   estado?: Prisma.SortOrder
+  observaciones?: Prisma.SortOrderInput | Prisma.SortOrder
   id_cocinero?: Prisma.SortOrderInput | Prisma.SortOrder
   id_comanda?: Prisma.SortOrder
   id_producto?: Prisma.SortOrder
@@ -278,6 +289,7 @@ export type detalle_comandaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.detalle_comandaScalarWhereWithAggregatesInput | Prisma.detalle_comandaScalarWhereWithAggregatesInput[]
   cantidad?: Prisma.IntWithAggregatesFilter<"detalle_comanda"> | number
   estado?: Prisma.Enumestado_detalle_comandaWithAggregatesFilter<"detalle_comanda"> | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.StringNullableWithAggregatesFilter<"detalle_comanda"> | string | null
   id_cocinero?: Prisma.IntNullableWithAggregatesFilter<"detalle_comanda"> | number | null
   id_comanda?: Prisma.IntWithAggregatesFilter<"detalle_comanda"> | number
   id_producto?: Prisma.IntWithAggregatesFilter<"detalle_comanda"> | number
@@ -286,6 +298,7 @@ export type detalle_comandaScalarWhereWithAggregatesInput = {
 export type detalle_comandaCreateInput = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones?: string | null
   cocinero?: Prisma.usuarioCreateNestedOneWithoutDetalles_comandaInput
   comanda: Prisma.comandaCreateNestedOneWithoutDetalles_comandasInput
   producto: Prisma.productoCreateNestedOneWithoutDetalles_comandasInput
@@ -294,6 +307,7 @@ export type detalle_comandaCreateInput = {
 export type detalle_comandaUncheckedCreateInput = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones?: string | null
   id_cocinero?: number | null
   id_comanda: number
   id_producto: number
@@ -302,6 +316,7 @@ export type detalle_comandaUncheckedCreateInput = {
 export type detalle_comandaUpdateInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cocinero?: Prisma.usuarioUpdateOneWithoutDetalles_comandaNestedInput
   comanda?: Prisma.comandaUpdateOneRequiredWithoutDetalles_comandasNestedInput
   producto?: Prisma.productoUpdateOneRequiredWithoutDetalles_comandasNestedInput
@@ -310,6 +325,7 @@ export type detalle_comandaUpdateInput = {
 export type detalle_comandaUncheckedUpdateInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_cocinero?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id_comanda?: Prisma.IntFieldUpdateOperationsInput | number
   id_producto?: Prisma.IntFieldUpdateOperationsInput | number
@@ -318,6 +334,7 @@ export type detalle_comandaUncheckedUpdateInput = {
 export type detalle_comandaCreateManyInput = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones?: string | null
   id_cocinero?: number | null
   id_comanda: number
   id_producto: number
@@ -326,11 +343,13 @@ export type detalle_comandaCreateManyInput = {
 export type detalle_comandaUpdateManyMutationInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type detalle_comandaUncheckedUpdateManyInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_cocinero?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id_comanda?: Prisma.IntFieldUpdateOperationsInput | number
   id_producto?: Prisma.IntFieldUpdateOperationsInput | number
@@ -354,6 +373,7 @@ export type detalle_comandaId_comandaId_productoCompoundUniqueInput = {
 export type detalle_comandaCountOrderByAggregateInput = {
   cantidad?: Prisma.SortOrder
   estado?: Prisma.SortOrder
+  observaciones?: Prisma.SortOrder
   id_cocinero?: Prisma.SortOrder
   id_comanda?: Prisma.SortOrder
   id_producto?: Prisma.SortOrder
@@ -369,6 +389,7 @@ export type detalle_comandaAvgOrderByAggregateInput = {
 export type detalle_comandaMaxOrderByAggregateInput = {
   cantidad?: Prisma.SortOrder
   estado?: Prisma.SortOrder
+  observaciones?: Prisma.SortOrder
   id_cocinero?: Prisma.SortOrder
   id_comanda?: Prisma.SortOrder
   id_producto?: Prisma.SortOrder
@@ -377,6 +398,7 @@ export type detalle_comandaMaxOrderByAggregateInput = {
 export type detalle_comandaMinOrderByAggregateInput = {
   cantidad?: Prisma.SortOrder
   estado?: Prisma.SortOrder
+  observaciones?: Prisma.SortOrder
   id_cocinero?: Prisma.SortOrder
   id_comanda?: Prisma.SortOrder
   id_producto?: Prisma.SortOrder
@@ -522,6 +544,7 @@ export type Enumestado_detalle_comandaFieldUpdateOperationsInput = {
 export type detalle_comandaCreateWithoutCocineroInput = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones?: string | null
   comanda: Prisma.comandaCreateNestedOneWithoutDetalles_comandasInput
   producto: Prisma.productoCreateNestedOneWithoutDetalles_comandasInput
 }
@@ -529,6 +552,7 @@ export type detalle_comandaCreateWithoutCocineroInput = {
 export type detalle_comandaUncheckedCreateWithoutCocineroInput = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones?: string | null
   id_comanda: number
   id_producto: number
 }
@@ -565,6 +589,7 @@ export type detalle_comandaScalarWhereInput = {
   NOT?: Prisma.detalle_comandaScalarWhereInput | Prisma.detalle_comandaScalarWhereInput[]
   cantidad?: Prisma.IntFilter<"detalle_comanda"> | number
   estado?: Prisma.Enumestado_detalle_comandaFilter<"detalle_comanda"> | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.StringNullableFilter<"detalle_comanda"> | string | null
   id_cocinero?: Prisma.IntNullableFilter<"detalle_comanda"> | number | null
   id_comanda?: Prisma.IntFilter<"detalle_comanda"> | number
   id_producto?: Prisma.IntFilter<"detalle_comanda"> | number
@@ -573,6 +598,7 @@ export type detalle_comandaScalarWhereInput = {
 export type detalle_comandaCreateWithoutComandaInput = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones?: string | null
   cocinero?: Prisma.usuarioCreateNestedOneWithoutDetalles_comandaInput
   producto: Prisma.productoCreateNestedOneWithoutDetalles_comandasInput
 }
@@ -580,6 +606,7 @@ export type detalle_comandaCreateWithoutComandaInput = {
 export type detalle_comandaUncheckedCreateWithoutComandaInput = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones?: string | null
   id_cocinero?: number | null
   id_producto: number
 }
@@ -613,6 +640,7 @@ export type detalle_comandaUpdateManyWithWhereWithoutComandaInput = {
 export type detalle_comandaCreateWithoutProductoInput = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones?: string | null
   cocinero?: Prisma.usuarioCreateNestedOneWithoutDetalles_comandaInput
   comanda: Prisma.comandaCreateNestedOneWithoutDetalles_comandasInput
 }
@@ -620,6 +648,7 @@ export type detalle_comandaCreateWithoutProductoInput = {
 export type detalle_comandaUncheckedCreateWithoutProductoInput = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones?: string | null
   id_cocinero?: number | null
   id_comanda: number
 }
@@ -653,6 +682,7 @@ export type detalle_comandaUpdateManyWithWhereWithoutProductoInput = {
 export type detalle_comandaCreateManyCocineroInput = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones?: string | null
   id_comanda: number
   id_producto: number
 }
@@ -660,6 +690,7 @@ export type detalle_comandaCreateManyCocineroInput = {
 export type detalle_comandaUpdateWithoutCocineroInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comanda?: Prisma.comandaUpdateOneRequiredWithoutDetalles_comandasNestedInput
   producto?: Prisma.productoUpdateOneRequiredWithoutDetalles_comandasNestedInput
 }
@@ -667,6 +698,7 @@ export type detalle_comandaUpdateWithoutCocineroInput = {
 export type detalle_comandaUncheckedUpdateWithoutCocineroInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_comanda?: Prisma.IntFieldUpdateOperationsInput | number
   id_producto?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -674,6 +706,7 @@ export type detalle_comandaUncheckedUpdateWithoutCocineroInput = {
 export type detalle_comandaUncheckedUpdateManyWithoutCocineroInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_comanda?: Prisma.IntFieldUpdateOperationsInput | number
   id_producto?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -681,6 +714,7 @@ export type detalle_comandaUncheckedUpdateManyWithoutCocineroInput = {
 export type detalle_comandaCreateManyComandaInput = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones?: string | null
   id_cocinero?: number | null
   id_producto: number
 }
@@ -688,6 +722,7 @@ export type detalle_comandaCreateManyComandaInput = {
 export type detalle_comandaUpdateWithoutComandaInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cocinero?: Prisma.usuarioUpdateOneWithoutDetalles_comandaNestedInput
   producto?: Prisma.productoUpdateOneRequiredWithoutDetalles_comandasNestedInput
 }
@@ -695,6 +730,7 @@ export type detalle_comandaUpdateWithoutComandaInput = {
 export type detalle_comandaUncheckedUpdateWithoutComandaInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_cocinero?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id_producto?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -702,6 +738,7 @@ export type detalle_comandaUncheckedUpdateWithoutComandaInput = {
 export type detalle_comandaUncheckedUpdateManyWithoutComandaInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_cocinero?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id_producto?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -709,6 +746,7 @@ export type detalle_comandaUncheckedUpdateManyWithoutComandaInput = {
 export type detalle_comandaCreateManyProductoInput = {
   cantidad: number
   estado: $Enums.estado_detalle_comanda
+  observaciones?: string | null
   id_cocinero?: number | null
   id_comanda: number
 }
@@ -716,6 +754,7 @@ export type detalle_comandaCreateManyProductoInput = {
 export type detalle_comandaUpdateWithoutProductoInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cocinero?: Prisma.usuarioUpdateOneWithoutDetalles_comandaNestedInput
   comanda?: Prisma.comandaUpdateOneRequiredWithoutDetalles_comandasNestedInput
 }
@@ -723,6 +762,7 @@ export type detalle_comandaUpdateWithoutProductoInput = {
 export type detalle_comandaUncheckedUpdateWithoutProductoInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_cocinero?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id_comanda?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -730,6 +770,7 @@ export type detalle_comandaUncheckedUpdateWithoutProductoInput = {
 export type detalle_comandaUncheckedUpdateManyWithoutProductoInput = {
   cantidad?: Prisma.IntFieldUpdateOperationsInput | number
   estado?: Prisma.Enumestado_detalle_comandaFieldUpdateOperationsInput | $Enums.estado_detalle_comanda
+  observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_cocinero?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id_comanda?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -739,6 +780,7 @@ export type detalle_comandaUncheckedUpdateManyWithoutProductoInput = {
 export type detalle_comandaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   cantidad?: boolean
   estado?: boolean
+  observaciones?: boolean
   id_cocinero?: boolean
   id_comanda?: boolean
   id_producto?: boolean
@@ -750,6 +792,7 @@ export type detalle_comandaSelect<ExtArgs extends runtime.Types.Extensions.Inter
 export type detalle_comandaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   cantidad?: boolean
   estado?: boolean
+  observaciones?: boolean
   id_cocinero?: boolean
   id_comanda?: boolean
   id_producto?: boolean
@@ -761,6 +804,7 @@ export type detalle_comandaSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
 export type detalle_comandaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   cantidad?: boolean
   estado?: boolean
+  observaciones?: boolean
   id_cocinero?: boolean
   id_comanda?: boolean
   id_producto?: boolean
@@ -772,12 +816,13 @@ export type detalle_comandaSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type detalle_comandaSelectScalar = {
   cantidad?: boolean
   estado?: boolean
+  observaciones?: boolean
   id_cocinero?: boolean
   id_comanda?: boolean
   id_producto?: boolean
 }
 
-export type detalle_comandaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"cantidad" | "estado" | "id_cocinero" | "id_comanda" | "id_producto", ExtArgs["result"]["detalle_comanda"]>
+export type detalle_comandaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"cantidad" | "estado" | "observaciones" | "id_cocinero" | "id_comanda" | "id_producto", ExtArgs["result"]["detalle_comanda"]>
 export type detalle_comandaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cocinero?: boolean | Prisma.detalle_comanda$cocineroArgs<ExtArgs>
   comanda?: boolean | Prisma.comandaDefaultArgs<ExtArgs>
@@ -804,6 +849,7 @@ export type $detalle_comandaPayload<ExtArgs extends runtime.Types.Extensions.Int
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     cantidad: number
     estado: $Enums.estado_detalle_comanda
+    observaciones: string | null
     id_cocinero: number | null
     id_comanda: number
     id_producto: number
@@ -1235,6 +1281,7 @@ export interface Prisma__detalle_comandaClient<T, Null = never, ExtArgs extends 
 export interface detalle_comandaFieldRefs {
   readonly cantidad: Prisma.FieldRef<"detalle_comanda", 'Int'>
   readonly estado: Prisma.FieldRef<"detalle_comanda", 'estado_detalle_comanda'>
+  readonly observaciones: Prisma.FieldRef<"detalle_comanda", 'String'>
   readonly id_cocinero: Prisma.FieldRef<"detalle_comanda", 'Int'>
   readonly id_comanda: Prisma.FieldRef<"detalle_comanda", 'Int'>
   readonly id_producto: Prisma.FieldRef<"detalle_comanda", 'Int'>

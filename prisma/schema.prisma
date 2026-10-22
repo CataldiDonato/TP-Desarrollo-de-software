@@ -164,6 +164,8 @@ model precio_producto {
 model detalle_comanda {
   cantidad Int
   estado estado_detalle_comanda
+  // Aclaraciones del cliente para la cocina (ej: "sin sal", "bien cocida")
+  observaciones String?
 
   // Relacion con cocinero
   id_cocinero Int?
