@@ -19,7 +19,10 @@ import { verificarToken } from './middlewares/auth.middleware';
 const app: Application = express();
 
 // 2. Middlewares (Configuraciones iniciales)
-app.use(cors());          // Permite que el Frontend se conecte al Backend
+// Permite que el Frontend se conecte al Backend. En producción, CORS_ORIGIN limita qué dominios
+// pueden hacerlo (separados por coma); si no está definido se acepta cualquiera (desarrollo).
+const origenesPermitidos = process.env.CORS_ORIGIN?.split(',').map((origen) => origen.trim());
+app.use(cors({ origin: origenesPermitidos ?? true }));
 app.use(express.json());  // Permite a Express leer JSON en el cuerpo de las peticiones (req.body)
 
 // 3. Ruta de estado (Health Check) - SIEMPRE FUNCIONA
