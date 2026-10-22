@@ -7,7 +7,7 @@ Interfaz web de RestoFlow para administradores, mozos y cocineros.
 ## Requisitos
 
 - Node.js 20 o superior
-- El [backend](https://github.com/CataldiDonato/TP-Desarrollo-de-software-Backend) levantado
+- El [backend](../backend/README.md) levantado
 
 ## Instalación paso a paso
 
