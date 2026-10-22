@@ -4,6 +4,7 @@ import Modal from '../../components/common/Modal';
 import { createReserva, updateReserva } from '../../services/reservas.service';
 import { getMesasDisponibles } from '../../services/mesas.service';
 import { aInputFechaHora, mensajeDeError } from '../../utils/formato';
+import { Reserva } from '../../models/modelos';
 
 /**
  * Modal para CREAR o EDITAR una reserva.
@@ -65,13 +66,8 @@ export default function ReservaFormModal({ reservaInicial, onGuardado, onCancela
 
     setCargando(true);
     try {
-      // Formatear datos antes de enviarlos (fecha ISO y números enteros)
-      const dataAEnviar = {
-        ...formData,
-        fecha: new Date(formData.fecha).toISOString(),
-        cantidad_personas: Number(formData.cantidad_personas),
-        id_mesa: Number(formData.id_mesa)
-      };
+      // El modelo formatea los datos antes de enviarlos (fecha ISO y números enteros)
+      const dataAEnviar = new Reserva(formData).toApi();
 
       if (esEdicion) {
         await updateReserva(reservaInicial.id, dataAEnviar);

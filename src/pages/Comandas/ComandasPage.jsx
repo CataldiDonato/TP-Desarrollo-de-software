@@ -76,7 +76,7 @@ const ComandasPage = () => {
                   <td>{comanda.medio_pago ? comanda.medio_pago.tipo : '—'}</td>
                   <td>{formatearPrecio(comanda.total)}</td>
                   <td>{formatearFecha(comanda.fecha)}</td>
-                  <td><span className={`badge estado-${comanda.estado.toLowerCase()}`}>{comanda.estado}</span></td>
+                  <td><span className={`badge ${comanda.claseEstado}`}>{comanda.estado}</span></td>
                   <td>
                     <button className="btn btn-secondary" onClick={() => setComandaSeleccionada(comanda.id)}>
                       <Eye size={16} /> Ver detalle

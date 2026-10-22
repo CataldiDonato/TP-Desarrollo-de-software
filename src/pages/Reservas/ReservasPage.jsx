@@ -132,11 +132,11 @@ export default function ReservasPage() {
                   <td>{r.cantidad_personas}</td>
                   <td>Mesa {r.id_mesa}</td>
                   <td>
-                    <span className={`badge estado-${r.estado.toLowerCase()}`}>{r.estado}</span>
-                    {r.motivo_cancelacion && <div className="text-muted text-small">({r.motivo_cancelacion})</div>}
+                    <span className={`badge ${r.claseEstado}`}>{r.estado}</span>
+                    {r.motivo_cancelacion && <div className="mt-1 text-xs text-muted">({r.motivo_cancelacion})</div>}
                   </td>
                   <td className="table-actions">
-                    {r.estado === 'Confirmada' ? (
+                    {r.estaConfirmada ? (
                       <>
                         <button className="btn btn-icon btn-edit" onClick={() => abrirEdicion(r)} title="Editar">
                           <Pencil size={16} />

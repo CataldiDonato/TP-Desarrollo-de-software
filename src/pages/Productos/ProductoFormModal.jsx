@@ -2,7 +2,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import Modal from '../../components/common/Modal'
 import { createProducto, updateProducto } from '../../services/productos.service'
-import { TIPOS_PRODUCTO } from '../../models/modelos'
+import { Producto, TIPOS_PRODUCTO } from '../../models/modelos'
 import { mensajeDeError } from '../../utils/formato'
 
 /**
@@ -57,11 +57,8 @@ export default function ProductoFormModal({ productoInicial, categorias, onGuard
       return
     }
 
-    const payload = {
-      ...form,
-      precio: Number(form.precio),             // asegurar tipo numérico
-      id_categoria: Number(form.id_categoria),
-    }
+    // El modelo arma el objeto que espera el backend (con los números ya convertidos)
+    const payload = new Producto(form).toApi()
 
     setGuardando(true)
     try {

@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import Modal from '../../components/common/Modal';
 import { createCategoria, updateCategoria } from '../../services/categorias.service';
 import { mensajeDeError } from '../../utils/formato';
+import { Categoria } from '../../models/modelos';
 
 /**
  * Modal para CREAR o EDITAR una categoría.
@@ -24,13 +25,14 @@ export default function CategoriaFormModal({ categoriaInicial, onGuardado, onCan
       return;
     }
 
+    const datos = new Categoria({ nombre }).toApi();
     setGuardando(true);
     try {
       if (esEdicion) {
-        await updateCategoria(categoriaInicial.id, { nombre: nombre.trim() });
+        await updateCategoria(categoriaInicial.id, datos);
         toast.success('Categoría actualizada correctamente.');
       } else {
-        await createCategoria({ nombre: nombre.trim() });
+        await createCategoria(datos);
         toast.success('Categoría creada correctamente.');
       }
       onGuardado();

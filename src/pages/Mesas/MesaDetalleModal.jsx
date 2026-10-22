@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Modal from '../../components/common/Modal';
 import { getMesa } from '../../services/mesas.service';
 import { formatearFecha, mensajeDeError } from '../../utils/formato';
+import { ESTADO_DETALLE_LEGIBLE } from '../../models/modelos';
 
 /**
  * Detalle de una mesa (lo pide al backend): estado, comanda abierta con sus productos
@@ -34,7 +35,7 @@ export default function MesaDetalleModal({ idMesa, onCerrar }) {
           <>
             <p>
               <strong>Capacidad:</strong> {mesa.capacidad} personas ·{' '}
-              <span className={`badge estado-${mesa.estado.toLowerCase()}`}>{mesa.estado}</span>
+              <span className={`badge ${mesa.claseEstado}`}>{mesa.estado}</span>
             </p>
 
             <h3>Comanda activa</h3>
@@ -43,10 +44,11 @@ export default function MesaDetalleModal({ idMesa, onCerrar }) {
                 <p className="text-muted">
                   Comanda #{mesa.comandaActiva.id} · Mozo: {mesa.comandaActiva.mozo.nombre} · Abierta: {formatearFecha(mesa.comandaActiva.fecha)}
                 </p>
-                <ul className="lista-simple">
+                <ul className="flex flex-col gap-2">
                   {mesa.comandaActiva.detalles_comandas.map((detalle) => (
                     <li key={detalle.id_producto}>
-                      {detalle.cantidad} x {detalle.producto.nombre} <span className="text-muted">({detalle.estado.replace('_', ' ')})</span>
+                      {detalle.cantidad} x {detalle.producto.nombre} <span className="text-muted">({ESTADO_DETALLE_LEGIBLE[detalle.estado]})</span>
+                      {detalle.observaciones && <span className="block text-sm text-warning">Obs.: {detalle.observaciones}</span>}
                     </li>
                   ))}
                 </ul>
@@ -57,7 +59,7 @@ export default function MesaDetalleModal({ idMesa, onCerrar }) {
 
             <h3>Próximas reservas</h3>
             {mesa.proximasReservas.length > 0 ? (
-              <ul className="lista-simple">
+              <ul className="flex flex-col gap-2">
                 {mesa.proximasReservas.map((reserva) => (
                   <li key={reserva.id}>
                     {formatearFecha(reserva.fecha)} · {reserva.nombre_cliente} ({reserva.cantidad_personas} personas)
