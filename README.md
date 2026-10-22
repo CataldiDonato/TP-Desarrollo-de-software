@@ -2,7 +2,7 @@
 
 Interfaz web de RestoFlow para administradores, mozos y cocineros.
 
-**Tecnologías:** React 19 · Vite · React Router · Axios · react-hot-toast · lucide-react (íconos)
+**Tecnologías:** React 19 · Vite · Tailwind CSS 4 · React Router · Axios · react-hot-toast · lucide-react (íconos)
 
 ## Requisitos
 
@@ -16,7 +16,7 @@ Interfaz web de RestoFlow para administradores, mozos y cocineros.
 npm install
 
 # 2. Crear el archivo .env con la dirección de la API
-echo "VITE_API_URL=http://localhost:3000/api" > .env
+cp .env.example .env
 
 # 3. Levantar en modo desarrollo
 npm run dev
@@ -42,6 +42,8 @@ La app queda en `http://localhost:5000`. Para entrar, usá los usuarios de prueb
 | `src/components/common/Modal.test.jsx` | Unitario de **componente** | El modal muestra título y contenido, se cierra con la X y con el fondo, y no se cierra al tocar adentro |
 | `src/utils/formato.test.js` | Unitario | Formato de precios y mensajes de error |
 | `e2e/flujo-admin.spec.js` | **End-to-end** | Login fallido, login del admin, navegación, alta y baja de una categoría, y protección de rutas |
+| `src/models/modelos.test.js` | Unitario | Clases de modelo: construcción desde la API, métodos del dominio y `toApi()` |
+| `e2e/flujo-comanda.spec.js` | **End-to-end** | Circuito completo con los 3 roles: el mozo abre una mesa con un pedido con observaciones, la cocina lo prepara y el mozo cobra |
 
 **Antes de correr el e2e por primera vez:**
 
@@ -84,12 +86,12 @@ src/
 │   ├── common/Modal.jsx        # Ventana modal genérica que usan todos los formularios
 │   └── layout/Navbar.jsx       # Barra de navegación (muestra los links según el rol)
 ├── context/AuthContext.jsx     # Sesión del usuario (token y datos) compartida en toda la app
-├── models/modelos.js           # Modelos de datos (JSDoc) y valores de los enums
+├── models/                     # Clases de modelo (una por entidad) — ver "Modelos" más abajo
 ├── pages/                      # Una carpeta por pantalla: página + sus modales
 ├── routes/                     # Rutas y protección por rol
 ├── services/                   # Llamadas a la API con Axios (una por recurso)
 ├── utils/                      # Formato de precios y fechas, rutas por rol
-└── index.css                   # Estilos (mobile-first)
+└── index.css                   # Tailwind CSS: tokens del diseño y componentes reutilizables
 ```
 
 ### Patrón de cada pantalla (CRUD)
@@ -98,6 +100,19 @@ src/
 2. **Página** (`pages/X/XPage.jsx`): carga la lista en un `useEffect`, la muestra en una tabla y abre los modales.
 3. **Modal de formulario** (`pages/X/XFormModal.jsx`): sirve para crear (`xInicial = null`) y para editar (`xInicial = objeto`). Recibe datos por props (input) y avisa al padre con `onGuardado` / `onCancelar` (output).
 
-### Estilos (mobile-first)
+### Modelos (clases)
 
-Los estilos base de `index.css` son para celular. Las pantallas más grandes se ajustan al final del archivo con `@media (min-width: ...)` en tres breakpoints: **SM 640px**, **MD 900px** y **LG 1100px**.
+Cada entidad del backend tiene su clase en `src/models/` (`Mesa`, `Producto`, `Reserva`, `Comanda`, `PedidoCocina`, etc.). Todas heredan de `Modelo`, que implementa el patrón **Factory Method**: `Mesa.desdeApi(json)` construye el objeto a partir de la respuesta de la API.
+
+- **Respuestas:** los servicios convierten el `data` de cada respuesta en instancias con `conModelo(Clase)`, así las pantallas usan métodos del dominio (`mesa.estaOcupada`, `comanda.estaAbierta`, `detalle.esModificable`, `pedido.siguienteEstado`) en lugar de comparar strings sueltos.
+- **Requests:** los formularios arman el cuerpo del pedido con `toApi()` (`new Producto(form).toApi()`, `new Reserva(form).toApi()`), y la pantalla de nueva comanda usa `ItemComanda` para los productos que se van cargando.
+
+### Estilos: Tailwind CSS (mobile-first)
+
+Se usa **Tailwind CSS v4** (plugin `@tailwindcss/vite`). Tailwind es mobile-first: una clase sin prefijo vale para todas las pantallas y los prefijos `sm:` / `md:` / `lg:` la cambian desde ese ancho en adelante. Breakpoints: **SM 640px**, **MD 768px** y **LG 1024px**.
+
+`src/index.css` sigue la organización que propone Tailwind:
+
+- `@theme`: colores y sombras del diseño (cada token genera sus utilidades, ej. `bg-surface`, `text-muted`).
+- `@layer components`: piezas que se repiten en muchas pantallas (`btn`, `data-table`, `form-group`, `modal`, `badge`), armadas con `@apply`.
+- El layout propio de cada pantalla se escribe con utilidades en el JSX (ej. `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`).
