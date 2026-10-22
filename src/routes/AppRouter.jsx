@@ -19,7 +19,7 @@ function LayoutPrivado() {
   return (
     <>
       <Navbar />
-      <main className="main-content">
+      <main className="mx-auto max-w-[1100px] px-4 py-5 sm:px-6 sm:py-8">
         <Outlet />
       </main>
     </>

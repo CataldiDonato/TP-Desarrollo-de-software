@@ -37,17 +37,17 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="navbar">
-      <div className="nav-group">
-        <span className="navbar-brand">RestoFlow</span>
+    <nav className="sticky top-0 z-100 flex flex-col items-start justify-between gap-2 border-b border-border bg-surface px-4 py-3 md:min-h-16 md:flex-row md:items-center md:px-8 md:py-2">
+      <div className="flex flex-wrap items-center gap-1">
+        <span className="mr-3 text-xl font-bold tracking-wide text-primary">RestoFlow</span>
         {links.map(({ to, label }, i) => (
           <Fragment key={to}>
-            {i > 0 && <span className="separator">|</span>}
-            <NavLink to={to} className={({ isActive }) => isActive ? 'active' : ''}>{label}</NavLink>
+            {i > 0 && <span className="text-border">|</span>}
+            <NavLink to={to} className={({ isActive }) => `rounded-[10px] px-2.5 py-1.5 text-sm transition-colors ${isActive ? 'bg-primary/12 text-primary' : 'text-muted hover:bg-surface-2 hover:text-fg'}`}>{label}</NavLink>
           </Fragment>
         ))}
       </div>
-      <div className="nav-group">
+      <div className="flex flex-wrap items-center gap-2">
         {usuario && <span>{usuario.nombre} ({usuario.rol})</span>}
         <button type="button" className="btn btn-secondary" onClick={handleLogout}>
           <LogOut size={16} /> Salir
