@@ -2,7 +2,7 @@
 
 API REST para la gestión interna de un restaurante: mesas, reservas, comandas, cocina y cobro.
 
-**Tecnologías:** Node.js · TypeScript · Express 5 · Prisma 7 · PostgreSQL · JWT
+**Tecnologías:** Node.js · TypeScript (modo `strict`) · Express 5 · Prisma 7 · PostgreSQL · JWT
 
 ## Requisitos
 
@@ -40,6 +40,7 @@ El servidor queda en `http://localhost:3000`. Si abrís esa dirección tiene que
 | `DATABASE_URL` | Conexión a PostgreSQL | `postgresql://postgres:postgres@localhost:5432/restoflow` |
 | `JWT_SECRET` | Clave para firmar los tokens de login | un texto largo y secreto |
 | `PORT` | Puerto del servidor (opcional) | `3000` |
+| `CORS_ORIGIN` | Dominios que pueden usar la API, separados por coma (opcional; en producción va la URL del frontend) | `https://restoflow.vercel.app` |
 
 ## Usuarios de prueba (los crea `npm run seed`)
 
@@ -60,6 +61,7 @@ El servidor queda en `http://localhost:3000`. Si abrís esa dirección tiene que
 | `npm run seed` | Carga datos de prueba (se puede correr varias veces) |
 | `npm test` | Corre los tests automáticos (necesita la base levantada) |
 | `npm run typecheck` | Revisa los tipos de TypeScript sin ejecutar nada |
+| `npm run db:deploy` | Aplica las migraciones pendientes (se usa en el deploy) |
 
 ## Tests
 
@@ -67,11 +69,11 @@ Se usa el test runner que viene con Node (`node:test`), sin librerías extra. Es
 
 | Archivo | Tipo | Qué prueba |
 |---|---|---|
-| `validation.test.ts` | Unitario | Validación de ids, textos, emails y enums |
+| `validation.test.ts` | Unitario | Validación de ids, textos, emails, enums y observaciones |
 | `password.test.ts` | Unitario | Hash y verificación de contraseñas |
 | `precios.test.ts` | Unitario | Cálculo del precio vigente de un producto |
 | `reservas.test.ts` | Unitario | Superposición de horarios de reservas |
-| `api.integration.test.ts` | Integración | La API real: login, token, permisos por rol y validaciones |
+| `api.integration.test.ts` | Integración | La API real: login, token, permisos por rol, validaciones y filtro de cocina |
 
 Evidencia de la última ejecución: [docs/evidencia-tests.md](docs/evidencia-tests.md).
 
