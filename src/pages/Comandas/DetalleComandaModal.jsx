@@ -25,6 +25,7 @@ const DetalleComandaModal = ({ idComanda, onCerrar, onCambio }) => {
   // Formulario para agregar un producto
   const [productoNuevo, setProductoNuevo] = useState('');
   const [cantidadNueva, setCantidadNueva] = useState(1);
+  const [observacionesNuevas, setObservacionesNuevas] = useState('');
   // Medio de pago elegido para cobrar
   const [medioPago, setMedioPago] = useState('');
   const [procesando, setProcesando] = useState(false);
@@ -84,11 +85,17 @@ const DetalleComandaModal = ({ idComanda, onCerrar, onCambio }) => {
     event.preventDefault();
     if (!productoNuevo) return;
     ejecutar(
-      () => agregarDetalle({ id_comanda: idComanda, id_producto: Number(productoNuevo), cantidad: Number(cantidadNueva) }),
+      () => agregarDetalle({
+        id_comanda: idComanda,
+        id_producto: Number(productoNuevo),
+        cantidad: Number(cantidadNueva),
+        observaciones: observacionesNuevas.trim() || undefined,
+      }),
       'Producto agregado y enviado a cocina'
     );
     setProductoNuevo('');
     setCantidadNueva(1);
+    setObservacionesNuevas('');
   }
 
   function cobrar() {
@@ -115,14 +122,14 @@ const DetalleComandaModal = ({ idComanda, onCerrar, onCambio }) => {
     );
   }
 
-  const estaAbierta = comanda.estado === 'Abierta';
+  const estaAbierta = comanda.estaAbierta;
 
   return (
     <Modal titulo={`Comanda #${comanda.id} - Mesa ${comanda.id_mesa}`} onCerrar={onCerrar}>
       <div className="modal-body">
         <p className="text-muted">
           Mozo: {comanda.mozo.nombre} · {formatearFecha(comanda.fecha)} ·{' '}
-          <span className={`badge estado-${comanda.estado.toLowerCase()}`}>{comanda.estado}</span>
+          <span className={`badge ${comanda.claseEstado}`}>{comanda.estado}</span>
           {comanda.medio_pago && <> · Pagó con {comanda.medio_pago.tipo}</>}
         </p>
 
@@ -137,12 +144,15 @@ const DetalleComandaModal = ({ idComanda, onCerrar, onCambio }) => {
                 <tr><td colSpan="5" className="table-empty">La comanda no tiene productos.</td></tr>
               ) : comanda.detalles.map((detalle) => {
                 // Solo se puede modificar lo que la cocina todavía no empezó.
-                const modificable = estaAbierta && detalle.estado === 'Pendiente';
+                const modificable = estaAbierta && detalle.esModificable;
                 return (
                   <tr key={detalle.id_producto}>
-                    <td>{detalle.nombre_producto}</td>
                     <td>
-                      <div className="cantidad-control">
+                      {detalle.nombre_producto}
+                      {detalle.observaciones && <span className="block text-xs text-warning">Obs.: {detalle.observaciones}</span>}
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-1.5">
                         {modificable && (
                           <button className="btn btn-icon" onClick={() => modificarCantidad(detalle, -1)} disabled={procesando} title="Restar">
                             <Minus size={14} />
@@ -156,7 +166,7 @@ const DetalleComandaModal = ({ idComanda, onCerrar, onCambio }) => {
                         )}
                       </div>
                     </td>
-                    <td>{detalle.estado.replace('_', ' ')}</td>
+                    <td><span className={`badge estado-${detalle.estado.toLowerCase()}`}>{detalle.estadoLegible}</span></td>
                     <td>{formatearPrecio(detalle.subtotal)}</td>
                     {estaAbierta && (
                       <td>
@@ -174,7 +184,7 @@ const DetalleComandaModal = ({ idComanda, onCerrar, onCambio }) => {
           </table>
         </div>
 
-        <p className="total"><span>Total</span><strong>{formatearPrecio(comanda.total)}</strong></p>
+        <p className="flex justify-between border-t border-border py-3 text-lg"><span>Total</span><strong>{formatearPrecio(comanda.total)}</strong></p>
 
         {estaAbierta && (
           <>
@@ -189,7 +199,7 @@ const DetalleComandaModal = ({ idComanda, onCerrar, onCambio }) => {
                 <input
                   type="number"
                   min="1"
-                  className="input-cantidad"
+                  className="w-[70px]"
                   value={cantidadNueva}
                   onChange={(e) => setCantidadNueva(e.target.value)}
                   aria-label="Cantidad"
@@ -198,6 +208,14 @@ const DetalleComandaModal = ({ idComanda, onCerrar, onCambio }) => {
                   <Plus size={16} />
                 </button>
               </div>
+              <input
+                type="text"
+                maxLength={200}
+                placeholder="Observaciones para la cocina (opcional)"
+                value={observacionesNuevas}
+                onChange={(e) => setObservacionesNuevas(e.target.value)}
+                aria-label="Observaciones"
+              />
             </form>
 
             {/* Cobrar o cancelar */}
