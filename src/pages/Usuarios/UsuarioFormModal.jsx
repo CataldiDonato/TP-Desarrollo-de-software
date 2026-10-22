@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 // Servicios correspondientes a alta y edición de usuarios.
 import { createUsuario, updateUsuario } from '../../services/usuarios.service';
 // Valores permitidos por el enum rol_usuario del backend.
-import { ROLES } from '../../models/modelos';
+import { ROLES, Usuario } from '../../models/modelos';
 
 // Valores iniciales cuando se abre el modal para crear un usuario nuevo.
 const formularioVacio = {
@@ -61,13 +61,8 @@ export default function UsuarioFormModal({ usuarioInicial, onGuardado, onCancela
       return;
     }
 
-    // El payload se adapta al contrato del backend: la contraseña no se envía vacía al editar.
-    const datos = {
-      nombre: formulario.nombre.trim(),
-      email: formulario.email.trim(),
-      rol: formulario.rol,
-      ...(formulario.contrasenia ? { contrasenia: formulario.contrasenia } : {}),
-    };
+    // El modelo adapta el payload al contrato del backend: la contraseña no se envía vacía al editar.
+    const datos = new Usuario(formulario).toApi(formulario.contrasenia);
 
     setGuardando(true);
     try {

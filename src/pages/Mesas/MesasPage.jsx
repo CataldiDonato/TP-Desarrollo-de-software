@@ -100,7 +100,7 @@ export default function MesasPage() {
                 <tr key={mesa.id}>
                   <td><strong>{mesa.id}</strong></td>
                   <td>{mesa.capacidad} personas</td>
-                  <td><span className={`badge estado-${mesa.estado.toLowerCase()}`}>{mesa.estado}</span></td>
+                  <td><span className={`badge ${mesa.claseEstado}`}>{mesa.estado}</span></td>
                   <td className="table-actions">
                     <button className="btn btn-icon btn-edit" onClick={() => setMesaDetalle(mesa.id)} title="Ver detalle">
                       <Eye size={16} />

@@ -75,10 +75,7 @@ export default function ProductosPage() {
   }
 
   // ── Filtrar en el cliente: por nombre y por categoría ────────────────
-  const productosFiltrados = productos.filter(p =>
-    p.nombre.toLowerCase().includes(busqueda.toLowerCase()) &&
-    (filtroCategoria === '' || p.id_categoria === Number(filtroCategoria))
-  )
+  const productosFiltrados = productos.filter(p => p.coincideCon(busqueda, filtroCategoria))
 
   // ── Render ───────────────────────────────────────────────────────────
   return (

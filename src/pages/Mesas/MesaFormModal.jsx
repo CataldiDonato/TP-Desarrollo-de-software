@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import Modal from '../../components/common/Modal';
 import { createMesa, updateMesa } from '../../services/mesas.service';
 import { mensajeDeError } from '../../utils/formato';
+import { Mesa } from '../../models/modelos';
 
 /**
  * Modal para CREAR o EDITAR una mesa.
@@ -16,7 +17,7 @@ export default function MesaFormModal({ mesaInicial, onGuardado, onCancelar }) {
   const [error, setError] = useState('');
   const [guardando, setGuardando] = useState(false);
 
-  const estaOcupada = esEdicion && mesaInicial.estado === 'Ocupada';
+  const estaOcupada = esEdicion && mesaInicial.estaOcupada;
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -25,13 +26,15 @@ export default function MesaFormModal({ mesaInicial, onGuardado, onCancelar }) {
       return;
     }
 
+    // Al crear, el backend ignora el estado: toda mesa nueva arranca Libre.
+    const datos = new Mesa({ capacidad, estado }).toApi();
     setGuardando(true);
     try {
       if (esEdicion) {
-        await updateMesa(mesaInicial.id, { capacidad: Number(capacidad), estado });
+        await updateMesa(mesaInicial.id, datos);
         toast.success('Mesa actualizada correctamente.');
       } else {
-        await createMesa({ capacidad: Number(capacidad) });
+        await createMesa(datos);
         toast.success('Mesa creada correctamente.');
       }
       onGuardado();

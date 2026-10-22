@@ -2,7 +2,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import Modal from '../../components/common/Modal';
 import { createMedioPago, updateMedioPago } from '../../services/mediosPago.service';
-import { TIPOS_PAGO } from '../../models/modelos';
+import { MedioPago, TIPOS_PAGO } from '../../models/modelos';
 import { mensajeDeError } from '../../utils/formato';
 
 /**
@@ -16,13 +16,14 @@ export default function MedioPagoFormModal({ medioInicial, onGuardado, onCancela
 
   async function handleSubmit(event) {
     event.preventDefault();
+    const datos = new MedioPago({ tipo }).toApi();
     setGuardando(true);
     try {
       if (esEdicion) {
-        await updateMedioPago(medioInicial.id, { tipo });
+        await updateMedioPago(medioInicial.id, datos);
         toast.success('Medio de pago actualizado.');
       } else {
-        await createMedioPago({ tipo });
+        await createMedioPago(datos);
         toast.success('Medio de pago creado.');
       }
       onGuardado();

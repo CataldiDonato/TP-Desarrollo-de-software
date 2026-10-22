@@ -8,13 +8,6 @@ import toast from 'react-hot-toast';
 import { deleteUsuario, getUsuarios } from '../../services/usuarios.service';
 import UsuarioFormModal from './UsuarioFormModal';
 
-// Mapea los roles que devuelve el backend a la clase CSS de su etiqueta visual.
-const ROL_CLASE = {
-  Administrador: 'role-admin',
-  Cocinero: 'role-cook',
-  Mozo: 'role-waiter',
-};
-
 export default function UsuariosPage() {
   // Datos y estados necesarios para la tabla y el filtro de búsqueda.
   const [usuarios, setUsuarios] = useState([]);
@@ -78,7 +71,7 @@ export default function UsuariosPage() {
   }
 
   return (
-    <section className="page-container usuarios-page">
+    <section className="page-container">
       {/* Encabezado y acción de alta de usuario. */}
       <div className="page-header">
         <div>
@@ -121,7 +114,7 @@ export default function UsuariosPage() {
                 <tr key={usuario.id}>
                   <td><strong>{usuario.nombre}</strong></td>
                   <td>{usuario.email}</td>
-                  <td><span className={`role-badge ${ROL_CLASE[usuario.rol] || ''}`}>{usuario.rol}</span></td>
+                  <td><span className={`badge ${usuario.claseRol}`}>{usuario.rol}</span></td>
                   <td className="table-actions">
                     <button className="btn btn-icon btn-edit" type="button" onClick={() => abrirEdicion(usuario)} aria-label={`Editar a ${usuario.nombre}`} title="Editar">
                       <Pencil size={16} />
