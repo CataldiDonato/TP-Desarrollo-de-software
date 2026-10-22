@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { createComanda } from '../../services/comandas.service';
 import { getMesas } from '../../services/mesas.service';
 import { getProductos } from '../../services/productos.service';
+import { ItemComanda } from '../../models/modelos';
 import { formatearPrecio, mensajeDeError } from '../../utils/formato';
 
 // Apertura de mesa: el mozo elige la mesa, carga los productos y los envía a la cocina.
@@ -19,8 +20,9 @@ const NuevaComandaPage = () => {
   const [mesa, setMesa] = useState('');
   const [productoSeleccionado, setProductoSeleccionado] = useState('');
   const [cantidad, setCantidad] = useState(1);
+  const [observaciones, setObservaciones] = useState('');
 
-  // Listado temporal de productos antes de confirmar el envío
+  // Listado temporal de productos antes de confirmar el envío (instancias de ItemComanda)
   const [itemsTemporal, setItemsTemporal] = useState([]);
   const [enviando, setEnviando] = useState(false);
 
@@ -32,7 +34,7 @@ const NuevaComandaPage = () => {
     try {
       const [resMesas, resProductos] = await Promise.all([getMesas(), getProductos()]);
       // Una mesa ocupada ya tiene comanda abierta, así que no se puede elegir.
-      setMesas(resMesas.data.filter((m) => m.estado !== 'Ocupada'));
+      setMesas(resMesas.data.filter((m) => !m.estaOcupada));
       setProductosDisponibles(resProductos.data);
     } catch (error) {
       toast.error(mensajeDeError(error, 'No se pudieron cargar las mesas y productos'));
@@ -43,26 +45,27 @@ const NuevaComandaPage = () => {
     e.preventDefault();
     if (!productoSeleccionado || Number(cantidad) < 1) return;
 
-    // Busco los datos del producto seleccionado para mostrarlos en el listado temporal.
-    const productoInfo = productosDisponibles.find(p => p.id === Number(productoSeleccionado));
+    // Busco el producto seleccionado para mostrar sus datos en el listado temporal.
+    const producto = productosDisponibles.find(p => p.id === Number(productoSeleccionado));
 
     // Si ya estaba en la lista, se suma la cantidad en vez de repetirlo.
-    const existe = itemsTemporal.find(item => item.id === productoInfo.id);
+    const existe = itemsTemporal.find(item => item.producto.id === producto.id);
     if (existe) {
       setItemsTemporal(itemsTemporal.map(item =>
-        item.id === productoInfo.id ? { ...item, cantidad: item.cantidad + Number(cantidad) } : item
+        item === existe ? item.sumar(Number(cantidad), observaciones) : item
       ));
     } else {
-      setItemsTemporal([...itemsTemporal, { ...productoInfo, cantidad: Number(cantidad) }]);
+      setItemsTemporal([...itemsTemporal, new ItemComanda(producto, Number(cantidad), observaciones)]);
     }
 
     // Reseteamos el formulario de producto
     setProductoSeleccionado('');
     setCantidad(1);
+    setObservaciones('');
   }
 
-  function quitarDelListado(id) {
-    setItemsTemporal(itemsTemporal.filter(item => item.id !== id));
+  function quitarDelListado(idProducto) {
+    setItemsTemporal(itemsTemporal.filter(item => item.producto.id !== idProducto));
   }
 
   async function confirmarEnvio() {
@@ -80,7 +83,7 @@ const NuevaComandaPage = () => {
       // El mozo no se manda: el backend lo toma del usuario logueado.
       await createComanda({
         id_mesa: Number(mesa),
-        detalles: itemsTemporal.map(item => ({ id_producto: item.id, cantidad: item.cantidad }))
+        detalles: itemsTemporal.map(item => item.toApi())
       });
       toast.success(`Comanda de la mesa ${mesa} enviada a cocina`);
       navigate('/comandas');
@@ -91,15 +94,15 @@ const NuevaComandaPage = () => {
     }
   }
 
-  const total = itemsTemporal.reduce((suma, item) => suma + (item.precio ?? 0) * item.cantidad, 0);
+  const total = itemsTemporal.reduce((suma, item) => suma + item.subtotal, 0);
 
   return (
     <div className="page-container">
       <h1 className="page-title">Nueva comanda</h1>
 
-      {/* Dos columnas en pantallas grandes: formulario a la izquierda, listado a la derecha */}
-      <div className="dos-columnas">
-        <div className="panel">
+      {/* Una columna en celular y tablet; dos en pantallas grandes: formulario a la izquierda, listado a la derecha */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="card flex flex-col gap-4 p-5 shadow-none">
           <div className="form-group">
             <label htmlFor="comanda-mesa">Mesa *</label>
             <select id="comanda-mesa" value={mesa} onChange={(e) => setMesa(e.target.value)}>
@@ -124,28 +127,39 @@ const NuevaComandaPage = () => {
                 min="1"
                 value={cantidad}
                 onChange={(e) => setCantidad(e.target.value)}
-                className="input-cantidad"
+                className="w-[70px]"
                 aria-label="Cantidad"
               />
               <button type="submit" className="btn btn-secondary" title="Agregar">
                 <Plus size={16} />
               </button>
             </div>
+            <input
+              type="text"
+              maxLength={200}
+              placeholder="Observaciones para la cocina (opcional)"
+              value={observaciones}
+              onChange={(e) => setObservaciones(e.target.value)}
+              aria-label="Observaciones"
+            />
           </form>
         </div>
 
-        <div className="panel">
-          <h2 className="panel-title">Productos a enviar</h2>
+        <div className="card flex flex-col gap-4 p-5 shadow-none">
+          <h2 className="text-[1.05rem]">Productos a enviar</h2>
           {itemsTemporal.length === 0 ? (
             <p className="text-muted">Todavía no cargaste productos.</p>
           ) : (
-            <ul className="lista-simple">
+            <ul className="flex flex-col gap-2">
               {itemsTemporal.map(item => (
-                <li key={item.id} className="item-lista">
-                  <span>{item.cantidad} x {item.nombre}</span>
+                <li key={item.producto.id} className="flex items-center justify-between gap-2 border-b border-border pb-2">
                   <span>
-                    {formatearPrecio((item.precio ?? 0) * item.cantidad)}
-                    <button className="btn btn-icon btn-delete" onClick={() => quitarDelListado(item.id)} title="Quitar">
+                    {item.cantidad} x {item.producto.nombre}
+                    {item.observaciones && <span className="block text-xs text-warning">Obs.: {item.observaciones}</span>}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    {formatearPrecio(item.subtotal)}
+                    <button className="btn btn-icon btn-delete" onClick={() => quitarDelListado(item.producto.id)} title="Quitar">
                       <Trash2 size={16} />
                     </button>
                   </span>
@@ -154,7 +168,7 @@ const NuevaComandaPage = () => {
             </ul>
           )}
 
-          <p className="total"><span>Total</span><strong>{formatearPrecio(total)}</strong></p>
+          <p className="flex justify-between border-t border-border py-3 text-lg"><span>Total</span><strong>{formatearPrecio(total)}</strong></p>
 
           <button className="btn btn-primary btn-block" onClick={confirmarEnvio} disabled={enviando || itemsTemporal.length === 0}>
             {enviando ? 'Enviando...' : 'Confirmar y enviar a cocina'}
