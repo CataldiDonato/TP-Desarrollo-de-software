@@ -46,15 +46,15 @@ export default function HomePage() {
 
   // Configuración declarativa de las tarjetas: map permite dibujar las cuatro sin repetir JSX.
   const metricas = [
-    { titulo: 'Salón', valor: estadisticas ? `${estadisticas.mesasOcupadas ?? 0} ocupadas` : '—', detalle: 'Mesas con comanda abierta', icono: Utensils, clase: 'metric-salon' },
-    { titulo: 'Ventas del día', valor: estadisticas ? moneda.format(estadisticas.ventasDelDia ?? 0) : '—', detalle: `${estadisticas?.comandasPagadas ?? 0} comandas cobradas`, icono: CircleDollarSign, clase: 'metric-sales' },
-    { titulo: 'En cocina', valor: estadisticas ? estadisticas.pedidosEnCocina ?? 0 : '—', detalle: 'Pedidos pendientes o en preparación', icono: ChefHat, clase: 'metric-kitchen' },
-    { titulo: 'Próximas reservas', valor: estadisticas ? reservas.length : '—', detalle: 'Reservas confirmadas', icono: CalendarDays, clase: 'metric-reservations' },
+    { titulo: 'Salón', valor: estadisticas ? `${estadisticas.mesasOcupadas ?? 0} ocupadas` : '—', detalle: 'Mesas con comanda abierta', icono: Utensils, clase: 'bg-info/15 text-info' },
+    { titulo: 'Ventas del día', valor: estadisticas ? moneda.format(estadisticas.ventasDelDia ?? 0) : '—', detalle: `${estadisticas?.comandasPagadas ?? 0} comandas cobradas`, icono: CircleDollarSign, clase: 'bg-success/15 text-success' },
+    { titulo: 'En cocina', valor: estadisticas ? estadisticas.pedidosEnCocina ?? 0 : '—', detalle: 'Pedidos pendientes o en preparación', icono: ChefHat, clase: 'bg-warning/15 text-warning' },
+    { titulo: 'Próximas reservas', valor: estadisticas ? reservas.length : '—', detalle: 'Reservas confirmadas', icono: CalendarDays, clase: 'bg-violet/15 text-violet' },
   ];
 
   return (
     // Contenedor general que hereda los estilos compartidos de todas las páginas.
-    <section className="page-container home-page">
+    <section className="page-container">
       {/* Encabezado y acción manual para volver a consultar los datos. */}
       <div className="page-header">
         <div>
@@ -72,35 +72,39 @@ export default function HomePage() {
 
       {!cargando && !error && <>
         {/* Tarjetas de métricas; Icono recibe el componente de lucide definido en cada objeto. */}
-        <div className="metrics-grid">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {metricas.map(({ titulo, valor, detalle, icono: Icono, clase }) => (
-            <article className={`metric-card ${clase}`} key={titulo}>
-              <div className="metric-icon"><Icono size={21} /></div>
-              <div><p>{titulo}</p><strong>{valor}</strong><span>{detalle}</span></div>
+            <article className="card flex min-w-0 gap-3.5 p-4" key={titulo}>
+              <div className={`grid size-[42px] flex-none place-items-center rounded-[10px] ${clase}`}><Icono size={21} /></div>
+              <div className="text-sm text-muted">
+                <p>{titulo}</p>
+                <strong className="my-1 block text-xl whitespace-nowrap text-fg">{valor}</strong>
+                <span>{detalle}</span>
+              </div>
             </article>
           ))}
         </div>
 
         {/* Resúmenes operativos solicitados: comandas abiertas y reservas confirmadas. */}
-        <div className="home-tables">
-          <article className="dashboard-panel">
-            <header className="dashboard-panel-header"><LayoutList size={19} /><h2>Mesas activas</h2></header>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <article className="card min-w-0 overflow-hidden">
+            <header className="flex items-center gap-2 border-b border-border bg-surface-2 px-4 py-4 text-primary"><LayoutList size={19} /><h2 className="text-base text-fg">Mesas activas</h2></header>
             {/* Para cada comanda abierta se muestra la mesa, su número y la hora de apertura. */}
             {mesasActivas.length ? (
-              <div className="table-wrapper"><table className="data-table compact-table"><thead><tr><th>Mesa</th><th>Comanda</th><th>Hora</th></tr></thead><tbody>
+              <div className="overflow-x-auto"><table className="data-table compact-table"><thead><tr><th>Mesa</th><th>Comanda</th><th>Hora</th></tr></thead><tbody>
                 {mesasActivas.map((comanda) => <tr key={comanda.id}><td>Mesa {comanda.id_mesa}</td><td>#{comanda.id}</td><td>{comanda.fecha ? fechaHora.format(new Date(comanda.fecha)) : '—'}</td></tr>)}
               </tbody></table></div>
-            ) : <p className="panel-empty">No hay mesas activas para mostrar.</p>}
+            ) : <p className="px-4 py-8 text-center text-muted">No hay mesas activas para mostrar.</p>}
           </article>
 
-          <article className="dashboard-panel">
-            <header className="dashboard-panel-header"><CalendarDays size={19} /><h2>Próximas reservas</h2></header>
+          <article className="card min-w-0 overflow-hidden">
+            <header className="flex items-center gap-2 border-b border-border bg-surface-2 px-4 py-4 text-primary"><CalendarDays size={19} /><h2 className="text-base text-fg">Próximas reservas</h2></header>
             {/* Se muestra la única mesa asignada a la reserva según el nuevo modelo de DB. */}
             {reservas.length ? (
-              <div className="table-wrapper"><table className="data-table compact-table"><thead><tr><th>Cliente</th><th>Fecha</th><th>Mesa</th></tr></thead><tbody>
+              <div className="overflow-x-auto"><table className="data-table compact-table"><thead><tr><th>Cliente</th><th>Fecha</th><th>Mesa</th></tr></thead><tbody>
                 {reservas.map((reserva) => <tr key={reserva.id}><td><strong>{reserva.nombre_cliente}</strong></td><td>{fechaHora.format(new Date(reserva.fecha))}</td><td>{reserva.mesa ? reserva.mesa.id : 'A asignar'}</td></tr>)}
               </tbody></table></div>
-            ) : <p className="panel-empty">No hay reservas confirmadas próximas.</p>}
+            ) : <p className="px-4 py-8 text-center text-muted">No hay reservas confirmadas próximas.</p>}
           </article>
         </div>
       </>}

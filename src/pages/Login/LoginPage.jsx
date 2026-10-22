@@ -29,8 +29,8 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="page-container login-page">
-      <form className="login-form" onSubmit={handleSubmit}>
+    <section className="flex min-h-screen items-center justify-center p-4">
+      <form className="card flex w-full max-w-[380px] flex-col gap-4 rounded-[15px] px-6 py-8" onSubmit={handleSubmit}>
         <h1 className="page-title">Iniciar sesión</h1>
 
         <div className="form-group">
@@ -43,7 +43,7 @@ export default function LoginPage() {
           <input id="contrasenia" type="password" value={contrasenia} onChange={(e) => setContrasenia(e.target.value)} required />
         </div>
 
-        <button className="btn btn-primary" type="submit" disabled={enviando}>
+        <button className="btn btn-primary btn-block" type="submit" disabled={enviando}>
           {enviando ? 'Ingresando...' : 'Ingresar'}
         </button>
       </form>
