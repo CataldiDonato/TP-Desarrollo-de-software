@@ -24,7 +24,7 @@ const app: Application = express();
 const origenesPermitidos = process.env.CORS_ORIGIN?.split(',').map((origen) => origen.trim());
 app.use(cors({ origin: origenesPermitidos ?? true }));
 app.use(express.json());  // Permite a Express leer JSON en el cuerpo de las peticiones (req.body)
-
+  
 // 3. Ruta de estado (Health Check) - SIEMPRE FUNCIONA
 // Esta ruta garantiza que http://localhost:3000/ siempre responda
 app.get('/', (req: Request, res: Response) => {

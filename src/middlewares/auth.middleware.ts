@@ -17,7 +17,7 @@ export function verificarToken(req: Request, res: Response, next: NextFunction) 
 
         if (typeof payload === 'string' || !('id' in payload) || !('rol' in payload)) {
             return res.status(401).json({ message: 'Token inválido.' });
-        }
+            }
 
         req.usuario = { id: payload.id as number, rol: payload.rol as RolUsuario };
         next();
