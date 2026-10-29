@@ -1,3 +1,4 @@
+/// <reference path="../types/express.d.ts" />
 import type { Request, Response } from "express"; // Importa los tipos Request y Response de Express para tipar los parámetros de las funciones del controlador
 import { comandaService } from "../services/comanda.service"; //Llama a la clase comandaService para poder usar sus metodos
 import { getErrorResponse } from "../utils/app-error";

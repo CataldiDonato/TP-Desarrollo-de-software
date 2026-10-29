@@ -41,7 +41,7 @@ Requisitos tomados de [utnfrrodsw/tp](https://github.com/utnfrrodsw/tp). Grupo d
 | Test unitario de un componente | [Modal.test.jsx](../frontend/src/components/common/Modal.test.jsx) |
 | Test end-to-end | [e2e/](../frontend/e2e): flujo del administrador y circuito completo mozo → cocina → cobro |
 | Login y protección por nivel de usuario | [RutaProtegida.jsx](../frontend/src/routes/RutaProtegida.jsx) + [AppRouter.jsx](../frontend/src/routes/AppRouter.jsx) |
-| Ambientes (.env) | [.env.example](../frontend/.env.example): `VITE_API_URL` |
+| Ambientes (.env) | [.env.example](../frontend/.env.example): `API` |
 
 ## Funcionales
 
@@ -61,5 +61,5 @@ Requisitos tomados de [utnfrrodsw/tp](https://github.com/utnfrrodsw/tp). Grupo d
 | Evidencia de tests automáticos | [backend](../backend/docs/evidencia-tests.md) · [frontend](../frontend/docs/evidencia-tests.md) |
 | Minutas y tracking | [minutas](minutas/README.md) · [tracking](tracking.md) |
 | Video demo | *pendiente: link en el README* |
-| Links de deploy y credenciales | *pendiente: ver [deploy.md](deploy.md)* |
+| Links de deploy y credenciales | [README](../README.md#deploy): [frontend](https://tp-desarrollo-de-software-frontend.vercel.app) · [API](https://tp-desarrollo-de-software-backend.vercel.app) · [cómo se hizo](deploy.md) |
 | Contacto para la defensa | [README](../README.md#contacto) |

@@ -19,8 +19,10 @@ Trabajo práctico de **Desarrollo de Software** — UTN FRRo. Requisitos de la c
 
 | | URL |
 |---|---|
-| Aplicación | *(completar después del deploy)* |
-| API | *(completar después del deploy)* |
+| Aplicación | [tp-desarrollo-de-software-frontend.vercel.app](https://tp-desarrollo-de-software-frontend.vercel.app) |
+| API | [tp-desarrollo-de-software-backend.vercel.app](https://tp-desarrollo-de-software-backend.vercel.app) (base de los endpoints: `/api`) |
+
+Front y back están deployados en Vercel, cada uno como proyecto aparte, con la base PostgreSQL en la nube ([cómo se hizo](docs/deploy.md)).
 
 Credenciales de prueba (las crea el seed):
 
@@ -77,7 +79,7 @@ npm run dev                 # http://localhost:3000
 ```bash
 cd frontend
 npm install
-cp .env.example .env        # VITE_API_URL=http://localhost:3000/api
+cp .env.example .env        # API=http://localhost:3000/api
 npm run dev                 # http://localhost:5000
 ```
 
@@ -103,5 +105,5 @@ Para coordinar la defensa:
 |---|---|---|
 | Donato Cataldi | [@CataldiDonato](https://github.com/CataldiDonato) | *(completar)* |
 | Gaspar Vada | [@GasparVada](https://github.com/GasparVada) | *(completar)* |
-| Tomás Curti | *(completar)* | *(completar)* |
+| Tomás Curti | [@Pomits](https://github.com/Pomits) | *(completar)* |
 | Ismael Acosta | [@IsmaelAcosta-IAL](https://github.com/IsmaelAcosta-IAL) | *(completar)* |

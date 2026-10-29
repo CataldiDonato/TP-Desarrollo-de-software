@@ -28,7 +28,7 @@ Los commits se pueden ver en este repo: el historial de `backend/` y `frontend/`
 | F16 | Clases de modelo en el frontend (Factory Method) | Cataldi | Hecho | `40aee6b` |
 | F17 | KDS: filtro por estado, observaciones y detalle de la comanda (CUU 3) | Cataldi | Hecho | `e73adb1`, `69d1be7`, `382cd30` |
 | F18 | TypeScript strict y preparación para deploy (CORS, `db:deploy`) | Cataldi | Hecho | `25638e5`, `0c91d91` |
-| F19 | Deploy de base, backend y frontend | *(asignar)* | Pendiente | [guía](deploy.md) |
+| F19 | Deploy de base, backend y frontend (Vercel) | Cataldi | Hecho | `b64ceae`, `5197884`, `0da9342`, `8577759`, `2322e5e`, `9825e69` |
 | F20 | Video demo | *(asignar)* | Pendiente | — |
 
 ## Bugs corregidos
@@ -51,7 +51,7 @@ Los commits se pueden ver en este repo: el historial de `backend/` y `frontend/`
 
 | # | Issue | Responsable |
 |---|---|---|
-| I1 | Hacer el deploy y publicar links y credenciales en el README | *(asignar)* |
+| I1 | ~~Hacer el deploy y publicar links y credenciales en el README~~ (hecho) | Cataldi |
 | I2 | Grabar el video demo y linkearlo en el README | *(asignar)* |
 | I3 | Abrir el PR a `utnfrrodsw/tp` y completar el formulario de entrega | *(asignar)* |
 | I4 | Completar presentes y decisiones en las [minutas](minutas/README.md) | Todos |
