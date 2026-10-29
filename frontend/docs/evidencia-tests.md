@@ -1,6 +1,6 @@
 # Evidencia de ejecución de tests — Frontend
 
-Fecha de ejecución: 22/10/2026 14:19
+Fecha de ejecución: 29/10/2026 18:09 (unitarios) · 22/10/2026 14:19 (end-to-end)
 
 ## Unitarios y de componente — `npm test` (Vitest + Testing Library)
 
@@ -18,7 +18,7 @@ Resultado: **18 tests, 18 pasan** en 3 archivos.
  ✓ src/utils/formato.test.js > formatearPrecio > si no hay precio muestra una raya 0ms
  ✓ src/utils/formato.test.js > mensajeDeError > usa el mensaje que mandó el backend 0ms
  ✓ src/utils/formato.test.js > mensajeDeError > si el backend no mandó mensaje usa el texto por defecto 0ms
- ✓ src/models/modelos.test.js > Modelo (factory method) > desdeApi crea una instancia de la subclase que lo llama 2ms
+ ✓ src/models/modelos.test.js > Modelo (factory method) > desdeApi crea una instancia de la subclase que lo llama 1ms
  ✓ src/models/modelos.test.js > Modelo (factory method) > conModelo convierte el data de una respuesta (lista u objeto) 0ms
  ✓ src/models/modelos.test.js > Comanda > arma los detalles como objetos y sabe qué se puede modificar 0ms
  ✓ src/models/modelos.test.js > ItemComanda (modelo de request) > calcula el subtotal y arma el detalle para POST /comandas 1ms
@@ -27,10 +27,10 @@ Resultado: **18 tests, 18 pasan** en 3 archivos.
  ✓ src/models/modelos.test.js > toApi de los formularios > Reserva manda la fecha en ISO y los números como números 0ms
  ✓ src/models/modelos.test.js > toApi de los formularios > Usuario solo manda la contraseña si se escribió una 1ms
  ✓ src/models/modelos.test.js > PedidoCocina > sabe a qué estado pasa y cuándo ya está listo 0ms
- ✓ src/components/common/Modal.test.jsx > Modal > muestra el título y el contenido que recibe por props 91ms
- ✓ src/components/common/Modal.test.jsx > Modal > llama a onCerrar al tocar el botón de cerrar 23ms
- ✓ src/components/common/Modal.test.jsx > Modal > llama a onCerrar al tocar el fondo oscuro 13ms
- ✓ src/components/common/Modal.test.jsx > Modal > NO se cierra al tocar algo de adentro del modal 12ms
+ ✓ src/components/common/Modal.test.jsx > Modal > muestra el título y el contenido que recibe por props 92ms
+ ✓ src/components/common/Modal.test.jsx > Modal > llama a onCerrar al tocar el botón de cerrar 25ms
+ ✓ src/components/common/Modal.test.jsx > Modal > llama a onCerrar al tocar el fondo oscuro 12ms
+ ✓ src/components/common/Modal.test.jsx > Modal > NO se cierra al tocar algo de adentro del modal 13ms
  Test Files  3 passed (3)
       Tests  18 passed (18)
 ```

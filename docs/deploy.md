@@ -1,47 +1,48 @@
 # Deploy
 
-Se despliegan tres piezas por separado. Las tres opciones de abajo tienen plan gratuito.
+Se despliegan tres piezas por separado:
 
-| Pieza | Servicio sugerido | Qué se sube |
+| Pieza | Dónde | URL |
 |---|---|---|
-| Base de datos | [Neon](https://neon.tech) (PostgreSQL administrado) | — |
-| Backend | [Render](https://render.com) (Web Service) | carpeta `backend/` |
-| Frontend | [Vercel](https://vercel.com) o [Netlify](https://netlify.com) | carpeta `frontend/` |
+| Base de datos | PostgreSQL administrado en la nube | — (solo la usa el backend, por `DATABASE_URL`) |
+| Backend | [Vercel](https://vercel.com), como función serverless | https://tp-desarrollo-de-software-backend.vercel.app |
+| Frontend | [Vercel](https://vercel.com), sitio estático (Vite) | https://tp-desarrollo-de-software-frontend.vercel.app |
 
-> Cualquier otro proveedor equivalente sirve (Supabase, Railway, un VPS con Docker, etc.): lo importante son las variables de entorno y los comandos de cada paso.
+Las credenciales de prueba están en el [README](../README.md#deploy).
 
-## 1. Base de datos (Neon)
+## 1. Base de datos
 
-1. Crear un proyecto en Neon y copiar la **connection string** (`postgresql://usuario:clave@host/neondb?sslmode=require`).
-2. Esa URL es la `DATABASE_URL` del backend. Las tablas las crea el backend al desplegarse (paso 2).
+1. Crear una base PostgreSQL en la nube (Neon, Supabase o similar) y copiar la **connection string** (`postgresql://usuario:clave@host/base?sslmode=require`).
+2. Esa URL es la `DATABASE_URL` del backend.
+3. Crear las tablas y cargar los datos de prueba desde la PC, una sola vez:
 
-## 2. Backend (Render → New → Web Service)
+```bash
+cd backend
+DATABASE_URL="postgresql://..." npm run db:deploy   # aplica las migraciones
+DATABASE_URL="postgresql://..." npm run seed        # usuarios de prueba, mesas, medios de pago y productos
+```
+
+## 2. Backend (Vercel → Add New → Project)
 
 | Campo | Valor |
 |---|---|
-| Repositorio | este repo |
 | Root Directory | `backend` |
-| Build Command | `npm ci && npx prisma generate && npm run db:deploy` |
-| Start Command | `npm start` |
+| Framework Preset | Other |
 
 Variables de entorno:
 
 | Variable | Valor |
 |---|---|
-| `DATABASE_URL` | la connection string de Neon |
+| `DATABASE_URL` | la connection string de la base |
 | `JWT_SECRET` | un texto largo y aleatorio (ej: salida de `openssl rand -hex 32`) |
-| `CORS_ORIGIN` | la URL del frontend (se completa después del paso 3, ej: `https://restoflow.vercel.app`) |
+| `CORS_ORIGIN` | la URL del frontend, sin `/` al final |
 
-Render define `PORT` solo. Cuando termine, abrir la URL del servicio: tiene que responder `{"estado":"OK", ...}`.
+Cómo corre en Vercel:
 
-**Datos de prueba (una sola vez):** desde la PC, con la `DATABASE_URL` de Neon:
+- `index.ts` exporta la app de Express. Si existe la variable `VERCEL` (la define Vercel solo) no llama a `app.listen`: cada request la atiende la función serverless. En local sigue levantando el servidor en el puerto 3000.
+- El script `postinstall` corre `prisma generate`, así el cliente de Prisma se genera en cada build.
 
-```bash
-cd backend
-DATABASE_URL="postgresql://...neon..." npm run seed
-```
-
-Crea los usuarios de prueba (admin, mozo y cocinero), mesas, medios de pago y productos.
+Para verificar: abrir la URL del backend tiene que responder `{"estado":"OK", ...}`.
 
 ## 3. Frontend (Vercel → Add New → Project)
 
@@ -52,21 +53,20 @@ Crea los usuarios de prueba (admin, mozo y cocinero), mesas, medios de pago y pr
 | Build Command | `npm run build` |
 | Output Directory | `dist` |
 
-Variable de entorno: `VITE_API_URL` = URL del backend + `/api` (ej: `https://restoflow-api.onrender.com/api`).
+Variable de entorno: `API` = URL del backend + `/api` (`https://tp-desarrollo-de-software-backend.vercel.app/api`). `vite.config.js` la lee en el build y, si no está, usa `http://localhost:3000/api`.
 
-`frontend/vercel.json` (y `frontend/public/_redirects` para Netlify) hace que al recargar una ruta como `/mesas` se sirva la app en lugar de un 404.
+`frontend/vercel.json` hace que al recargar una ruta como `/mesas` se sirva la app en lugar de un 404.
 
-## 4. Cerrar el circuito
+## 4. Verificación
 
-1. Volver a Render y completar `CORS_ORIGIN` con la URL de Vercel. Guardar (redeploya solo).
-2. Entrar al frontend con `admin@restoflow.com` / `admin1234` y probar el flujo: abrir una comanda con el mozo, prepararla con el cocinero y cobrarla.
-3. Completar en el [README](../README.md) la sección **Deploy** con las dos URLs y dejar las credenciales de prueba.
+1. Entrar al frontend con `admin@restoflow.com` / `admin1234`.
+2. Probar el circuito: abrir una comanda con el mozo, prepararla con el cocinero y cobrarla.
+3. Con el usuario mozo, entrar a una pantalla de administrador (ej: `/usuarios`): la app lo manda de vuelta a su pantalla, y la API responde 403.
 
 ## Problemas comunes
 
 | Síntoma | Causa probable |
 |---|---|
-| El front muestra "Network Error" | `VITE_API_URL` mal escrita (falta `/api`) o `CORS_ORIGIN` no coincide exacto con la URL del front (sin `/` al final) |
-| El backend no arranca: "Falta configurar JWT_SECRET" | Falta la variable `JWT_SECRET` |
-| Login responde "Credenciales inválidas" con los usuarios de prueba | No se corrió el seed contra la base de Neon |
-| La primera carga tarda ~1 minuto | El plan gratuito de Render "duerme" el servicio sin uso; abrir la URL del backend un rato antes de la demo |
+| El front muestra "Network Error" | `API` mal escrita (falta `/api`), o `CORS_ORIGIN` no coincide exacto con la URL del front (sin `/` al final). Después de cambiar una variable hay que redeployar |
+| El backend falla al iniciar o en cada request | Falta `DATABASE_URL` o `JWT_SECRET` en las variables del proyecto |
+| Login responde "Credenciales inválidas" con los usuarios de prueba | No se corrió el seed contra la base de la nube |
