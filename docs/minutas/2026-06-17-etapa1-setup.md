@@ -1,7 +1,8 @@
 # Minuta — Etapa 1: setup y arquitectura base (15/05 al 17/06/2026)
 
 - **Fuente:** reconstruida del historial de git (repos fork, backend y frontend)
-- **Presentes:** *(completar)*
+- **Medio:** Discord
+- **Presentes:** Cataldi · Vada · Curti · Acosta
 
 ## Avances registrados
 | Fecha | Integrante | Avance |
@@ -16,6 +17,9 @@
 - Trabajo **vertical**: quien toma una entidad hace back y front.
 - Ramas `feature/`, `fix/` y `docs/`, y Pull Requests hacia `main` ([metodología](../metodologia.md)).
 - Nunca subir `.env`: cada uno usa el `.env.example`.
+
+## Bloqueos o problemas
+- Back y front arrancaron en repos separados, lo que obligó a coordinar a mano los cambios de la API entre los dos.
 
 ## Próximos pasos
 - Etapa 2: CRUDs simples (categorías, mesas, medios de pago, usuarios) y login.

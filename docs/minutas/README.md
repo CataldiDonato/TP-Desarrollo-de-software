@@ -2,7 +2,7 @@
 
 La [metodología](../metodologia.md) del equipo define un tablero Kanban, GitHub Flow (ramas + Pull Requests), una coordinación asincrónica por WhatsApp cada dos días ("qué hice / qué voy a hacer / estoy bloqueado") y reuniones por Meet o Discord cuando alguien se traba.
 
-Las minutas de las etapas ya cerradas están **reconstruidas a partir del historial de git** (commits y pull requests de los tres repositorios): lo que figura como avance y como autor sale de ahí. Los campos marcados con *(completar)* son los que git no registra (presentes y decisiones charladas) y los completa el equipo.
+Las minutas de las etapas ya cerradas están **reconstruidas a partir del historial de git** (commits y pull requests de los tres repositorios): lo que figura como avance y como autor sale de ahí. Los presentes, el medio y los bloqueos los completó el equipo.
 
 Para las próximas reuniones se usa la [plantilla](plantilla.md).
 

@@ -1,7 +1,8 @@
 # Minuta — Etapa 2: CRUDs simples y capas (08/07 al 11/08/2026)
 
 - **Fuente:** reconstruida del historial de git (repos backend y frontend)
-- **Presentes:** *(completar)*
+- **Medio:** Discord
+- **Presentes:** Cataldi · Vada · Curti · Acosta
 
 ## Avances registrados
 | Fecha | Integrante | Avance |
@@ -15,7 +16,9 @@
 
 ## Decisiones
 - Arquitectura del backend: rutas → controladores → servicios → repositorios (Prisma solo en repositorios).
-- *(completar)*
+
+## Bloqueos o problemas
+- Cada integrante trabajó en su propia rama (`Donato`, `Curti_Tomas`, la de Acosta) y la integración en `main` se hizo de una sola vez el 11/08, con varios merges seguidos. Se acordó integrar más seguido con Pull Requests chicos.
 
 ## Próximos pasos
 - Etapa 3: CRUDs dependientes (productos, reservas) y apertura de comanda.

@@ -103,7 +103,7 @@ Para coordinar la defensa:
 
 | Integrante | GitHub | Email |
 |---|---|---|
-| Donato Cataldi | [@CataldiDonato](https://github.com/CataldiDonato) | *(completar)* |
-| Gaspar Vada | [@GasparVada](https://github.com/GasparVada) | *(completar)* |
-| Tomás Curti | [@Pomits](https://github.com/Pomits) | *(completar)* |
-| Ismael Acosta | [@IsmaelAcosta-IAL](https://github.com/IsmaelAcosta-IAL) | *(completar)* |
+| Donato Cataldi | [@CataldiDonato](https://github.com/CataldiDonato) | danatocataldifacultad@gmail.com |
+| Gaspar Vada | [@GasparVada](https://github.com/GasparVada) | gasparvada05@gmail.com |
+| Tomás Curti | [@Pomits](https://github.com/Pomits) | Curti.tomas.andres@gmail.com |
+| Ismael Acosta | [@IsmaelAcosta-IAL](https://github.com/IsmaelAcosta-IAL) | sismaelacosta@gmail.com |
