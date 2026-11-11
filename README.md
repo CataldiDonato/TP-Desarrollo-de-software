@@ -15,6 +15,15 @@ Trabajo práctico de **Desarrollo de Software** — UTN FRRo. Requisitos de la c
 
 ▶️ **[Ver el video del sistema funcionando](https://www.youtube.com/watch?v=6PFOL2DLCAw)**
 
+## Repositorios
+
+| | Repo |
+|---|---|
+| Backend (API REST) | [CataldiDonato/TP-Desarrollo-de-software-Backend](https://github.com/CataldiDonato/TP-Desarrollo-de-software-Backend) |
+| Frontend (aplicación web) | [CataldiDonato/TP-Desarrollo-de-software-Frontend](https://github.com/CataldiDonato/TP-Desarrollo-de-software-Frontend) |
+
+Este repo (el fork de la cátedra) tiene la propuesta, la documentación del TP y los links al código, al video y al sistema en producción.
+
 ## Deploy
 
 | | URL |
@@ -48,11 +57,9 @@ Credenciales de prueba (las crea el seed):
 | Frontend | React 19 · Vite · Tailwind CSS 4 · React Router · Axios |
 | Tests | `node:test` (backend) · Vitest + Testing Library · Playwright (e2e) |
 
-## Estructura del repositorio
+## Estructura de este repositorio
 
 ```
-├── backend/     API REST (Express + Prisma)             → backend/README.md
-├── frontend/    Aplicación web (React + Vite)            → frontend/README.md
 ├── docs/        Documentación del TP                     → docs/README.md
 ├── scripts/     Utilidades (carga del tablero de tareas)
 └── proposal.md  Propuesta actualizada
@@ -65,6 +72,7 @@ Requisitos: **Node.js 20+** y **PostgreSQL 14+** (local o en la nube).
 ### 1. Backend
 
 ```bash
+git clone https://github.com/CataldiDonato/TP-Desarrollo-de-software-Backend.git backend
 cd backend
 npm install
 cp .env.example .env        # completar DATABASE_URL y JWT_SECRET
@@ -77,6 +85,7 @@ npm run dev                 # http://localhost:3000
 ### 2. Frontend (en otra terminal)
 
 ```bash
+git clone https://github.com/CataldiDonato/TP-Desarrollo-de-software-Frontend.git frontend
 cd frontend
 npm install
 cp .env.example .env        # API=http://localhost:3000/api
@@ -95,7 +104,7 @@ cd frontend && npx playwright install chromium && npm run test:e2e   # e2e (nece
 
 ## Documentación
 
-Todo está en [docs/](docs/README.md): propuesta, arquitectura y modelo de datos, [API](backend/docs/API.md), evidencia de tests, metodología, minutas, tracking y deploy.
+Todo está en [docs/](docs/README.md): propuesta, arquitectura y modelo de datos, [API](https://github.com/CataldiDonato/TP-Desarrollo-de-software-Backend/blob/main/docs/API.md), evidencia de tests, metodología, minutas, tracking y deploy.
 
 ## Contacto
 

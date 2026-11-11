@@ -9,9 +9,9 @@
 * 55220 - Acosta, Ismael Fabricio
 
 ### Repositorios
-* [fullstack app (monorepo: `backend/` + `frontend/`)](https://github.com/CataldiDonato/TP-Desarrollo-de-software)
-
-*Nota*: el backend y el frontend se desarrollaron primero en dos repos separados ([backend](https://github.com/CataldiDonato/TP-Desarrollo-de-software-Backend), [frontend](https://github.com/CataldiDonato/TP-Desarrollo-de-software-Frontend)) y después se unificaron en este fork conservando todo su historial de commits.
+* [backend app](https://github.com/CataldiDonato/TP-Desarrollo-de-software-Backend)
+* [frontend app](https://github.com/CataldiDonato/TP-Desarrollo-de-software-Frontend)
+* [documentación, video y deploy](https://github.com/CataldiDonato/TP-Desarrollo-de-software) (este fork)
 
 ### Pull Requests
 * [PR de entrega a utnfrrodsw/tp](https://github.com/utnfrrodsw/tp/pulls) *(completar con el link del PR una vez abierto)*

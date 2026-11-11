@@ -4,7 +4,7 @@ Metodología: **Kanban** con GitHub Flow (ver [metodología](metodologia.md)). C
 
 El tablero vive en **GitHub Projects** del repo. Las tareas de las etapas ya terminadas se cargaron a posteriori como issues cerrados, con referencia a los commits y Pull Requests que las resolvieron. Para cargarlas se usa [`scripts/cargar-issues.sh`](../scripts/cargar-issues.sh). Las tareas nuevas se abren como issue, se trabajan en una rama `feature/`, `fix/` o `docs/` y entran por Pull Request.
 
-Los commits se pueden ver en este repo: el historial de `backend/` y `frontend/` se conservó al unificarlos.
+Los commits se pueden ver en los repos de [backend](https://github.com/CataldiDonato/TP-Desarrollo-de-software-Backend/commits/main) y [frontend](https://github.com/CataldiDonato/TP-Desarrollo-de-software-Frontend/commits/main).
 
 ## Features
 
