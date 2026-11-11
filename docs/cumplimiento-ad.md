@@ -60,6 +60,6 @@ Requisitos tomados de [utnfrrodsw/tp](https://github.com/utnfrrodsw/tp). Grupo d
 | Documentación de la API | [API.md](../backend/docs/API.md) |
 | Evidencia de tests automáticos | [backend](../backend/docs/evidencia-tests.md) · [frontend](../frontend/docs/evidencia-tests.md) |
 | Minutas y tracking | [minutas](minutas/README.md) · [tracking](tracking.md) |
-| Video demo | *pendiente: link en el README* |
+| Video demo | [YouTube](https://www.youtube.com/watch?v=6PFOL2DLCAw) · link en el [README](../README.md#video-demo) |
 | Links de deploy y credenciales | [README](../README.md#deploy): [frontend](https://tp-desarrollo-de-software-frontend.vercel.app) · [API](https://tp-desarrollo-de-software-backend.vercel.app) · [cómo se hizo](deploy.md) |
 | Contacto para la defensa | [README](../README.md#contacto) |

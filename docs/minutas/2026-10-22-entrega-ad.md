@@ -20,7 +20,7 @@
 | Tarea | Responsable |
 |---|---|
 | Deploy (base, backend y frontend) y credenciales en el README | Cataldi — hecho el 29/10 en Vercel |
-| Video demo y link en el README | Cataldi |
+| Video demo y link en el README | Cataldi — hecho el 11/11 |
 | Cargar los issues en GitHub Projects (`scripts/cargar-issues.sh`) | Cataldi — hecho el 22/10 |
 | PR a `utnfrrodsw/tp` y formulario de entrega | Cataldi |
 | Completar los presentes y decisiones de estas minutas | Todos — hecho |

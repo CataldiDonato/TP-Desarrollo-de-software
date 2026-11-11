@@ -13,7 +13,7 @@ Trabajo práctico de **Desarrollo de Software** — UTN FRRo. Requisitos de la c
 
 ## Video demo
 
-▶️ **[Ver el video del sistema funcionando](PEGAR_LINK_DEL_VIDEO)**
+▶️ **[Ver el video del sistema funcionando](https://www.youtube.com/watch?v=6PFOL2DLCAw)**
 
 ## Deploy
 
